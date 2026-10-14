@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investigator Dashboard — CyberShield</title>
+    <!-- Fonts: Manrope, DM Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="dashboard-body">
+    <!-- Clean, Spacious Dashboard Layout -->
+    <div class="dashboard-shell">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-brand-wrap">
+                <a href="/" class="brand-wrap">
+                    <div class="brand-shield">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="brand-meta">
+                        <span class="brand-name">CyberShield</span>
+                        <span class="brand-tagline">Investigation Suite</span>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">INVESTIGATION</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/pages/dashboard.html" class="sidebar-nav-link active">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="nav_dashboard">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/cases.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <span data-i18n="nav_cases">Cases Directory</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/evidence-vault.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-vault"></i>
+                            <span data-i18n="nav_evidence">Evidence Vault</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/analysis-results.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-microchip"></i>
+                            <span data-i18n="nav_analysis">Analysis Results</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/incident-timeline.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-timeline"></i>
+                            <span data-i18n="nav_timeline">Incident Timeline</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/evidence-graph.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span data-i18n="nav_graph">Evidence Graph</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-section-label">ACTIONS</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/pages/report-incident.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-plus-circle"></i>
+                            <span data-i18n="nav_report">New Intake</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/profile.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-user-circle"></i>
+                            <span>Officer Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="officer-mini-profile">
+                    <div class="officer-avatar">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="officer-info">
+                        <div class="officer-name">Insp. Sharma</div>
+                        <div class="officer-badge font-mono">BADGE #IND-8402</div>
+                    </div>
+                </div>
+                <a href="/auth/logout" class="btn-logout" title="Sign Out">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Area -->
+        <div class="dashboard-main-content">
+            <!-- Top App Bar -->
+            <header class="dashboard-topbar">
+                <div class="topbar-left">
+                    <button class="mobile-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb-trail">
+                        <span class="breadcrumb-item">CyberShield</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item active" data-i18n="nav_dashboard">Dashboard</span>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <!-- Global Search -->
+                    <div class="topbar-search-wrap">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="caseSearchInput" class="topbar-search-input" placeholder="Search case ID, UPI, phone...">
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button class="nav-control-btn theme-toggle-btn" onclick="CyberShield.toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+
+                    <!-- Language Toggle -->
+                    <button class="nav-control-btn lang-toggle-btn" onclick="CyberShield.toggleLanguage()" title="Switch Language" aria-label="Switch Language">
+                        <i class="fa-solid fa-language"></i>
+                        <span class="lang-text-badge">EN</span>
+                    </button>
+
+                    <!-- Quick New Case Action -->
+                    <a href="/pages/report-incident.html" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus"></i> <span>New Case</span>
+                    </a>
+                </div>
+            </header>
+
+            <!-- Dashboard Content Scroll Area -->
+            <main class="dashboard-scroll-area">
+                <!-- Spacious Welcome Banner -->
+                <div class="workspace-welcome-banner">
+                    <div class="banner-text">
+                        <h1 class="welcome-heading">Investigation Overview</h1>
+                        <p class="welcome-subhead">Digital evidence pipeline, cryptographic verification status, and active forensic cases.</p>
+                    </div>
+                    <div class="banner-actions">
+                        <span class="status-indicator-badge">
+                            <span class="pulse-dot"></span> All Services Operational
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 4 Spacious KPI Cards -->
+                <div class="kpi-grid-4">
+                    <!-- KPI 1: Active Cases -->
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap icon-bg-blue">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <div class="kpi-label">Total Assigned Cases</div>
+                            <div class="kpi-value" id="kpiTotalCases">3</div>
+                            <div class="kpi-subtext text-blue">
+                                <i class="fa-solid fa-arrow-trend-up"></i> 100% indexed in SQLite
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI 2: Evidence Files -->
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap icon-bg-purple">
+                            <i class="fa-solid fa-file-shield"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <div class="kpi-label">Evidence Files Held</div>
+                            <div class="kpi-value" id="kpiEvidence">7</div>
+                            <div class="kpi-subtext text-purple">
+                                <i class="fa-solid fa-lock"></i> SHA-256 Verified
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI 3: Under Review -->
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap icon-bg-orange">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <div class="kpi-label">Pending Verification</div>
+                            <div class="kpi-value" id="kpiPending">1</div>
+                            <div class="kpi-subtext text-orange">
+                                <i class="fa-solid fa-hourglass-half"></i> Under review
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- KPI 4: High Attention Flags -->
+                    <div class="kpi-card">
+                        <div class="kpi-icon-wrap icon-bg-red">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="kpi-details">
+                            <div class="kpi-label">High Severity Flags</div>
+                            <div class="kpi-value" id="kpiHighAlerts">2</div>
+                            <div class="kpi-subtext text-red">
+                                <i class="fa-solid fa-circle-exclamation"></i> Active alerts
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Cases Section (Clean, Spacious Table) -->
+                <div class="table-card-container">
+                    <div class="table-card-header">
+                        <div>
+                            <h2 class="table-card-title">Recent Investigation Files</h2>
+                            <p class="table-card-subtext">Click on any case to review extracted OCR text, entity relationships, and verification audit trails.</p>
+                        </div>
+                        <div class="table-actions-header">
+                            <a href="/pages/cases.html" class="btn btn-outline btn-sm">
+                                <span>View All Cases</span> <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="clean-table-responsive">
+                        <table class="clean-data-table">
+                            <thead>
+                                <tr>
+                                    <th>CASE ID</th>
+                                    <th>TITLE & COMPLAINANT</th>
+                                    <th>CATEGORY</th>
+                                    <th>LOSS (INR)</th>
+                                    <th>STATUS</th>
+                                    <th>EVIDENCE</th>
+                                    <th>ACTION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dashboardCasesTableBody">
+                                <!-- Populated dynamically by dashboard.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation Cards to Key Modules -->
+                <div class="quick-nav-grid">
+                    <a href="/pages/evidence-vault.html" class="quick-nav-card">
+                        <div class="quick-nav-icon icon-bg-blue">
+                            <i class="fa-solid fa-vault"></i>
+                        </div>
+                        <div class="quick-nav-text">
+                            <div class="quick-nav-title">Evidence Vault</div>
+                            <div class="quick-nav-desc">Cryptographic SHA-256 hashes and file integrity validation.</div>
+                        </div>
+                        <div class="quick-nav-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                    </a>
+
+                    <a href="/pages/analysis-results.html" class="quick-nav-card">
+                        <div class="quick-nav-icon icon-bg-purple">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <div class="quick-nav-text">
+                            <div class="quick-nav-title">Analysis Results</div>
+                            <div class="quick-nav-desc">OCR text transcripts and NER entity extraction (UPI, phone, UTR).</div>
+                        </div>
+                        <div class="quick-nav-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                    </a>
+
+                    <a href="/pages/evidence-graph.html" class="quick-nav-card">
+                        <div class="quick-nav-icon icon-bg-green">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <div class="quick-nav-text">
+                            <div class="quick-nav-title">Evidence Graph</div>
+                            <div class="quick-nav-desc">Interactive Cytoscape network mapping suspects and transactions.</div>
+                        </div>
+                        <div class="quick-nav-arrow"><i class="fa-solid fa-arrow-right"></i></div>
+                    </a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>

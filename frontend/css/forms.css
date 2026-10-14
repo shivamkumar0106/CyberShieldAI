@@ -1,0 +1,513 @@
+/* ==========================================================================
+   CyberShield — Form Controls & Authentication Styles
+   Clean, light, professional UI for Login & Incident Reporting Intake
+   ========================================================================== */
+
+/* Auth Page Body & Minimal Header */
+.auth-page-body {
+    background-color: var(--bg-alt);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-minimal-header {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.auth-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.clean-login-card,
+.login-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 38px 36px;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: var(--shadow-lg);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.login-badge-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--orange-light);
+    color: var(--orange-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin: 0 auto 12px auto;
+}
+
+.login-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    letter-spacing: -0.4px;
+}
+
+.login-subtext {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+}
+
+/* Form Fields */
+.form-group {
+    margin-bottom: var(--space-5);
+}
+
+.form-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-2);
+}
+
+.form-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-2);
+}
+
+.form-label i {
+    color: var(--text-muted);
+    margin-right: 4px;
+}
+
+.forgot-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--orange-primary);
+    text-decoration: none;
+}
+
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    outline: none;
+    line-height: 1.5;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    border-color: var(--blue-primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.password-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrap .form-input {
+    padding-right: 40px;
+}
+
+.pwd-toggle-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.95rem;
+    padding: 0;
+}
+
+.pwd-toggle-btn:hover {
+    color: var(--text-primary);
+}
+
+.form-options-row {
+    margin-bottom: 20px;
+}
+
+.remember-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.btn-block {
+    width: 100%;
+}
+
+/* Auth Divider */
+.auth-divider {
+    text-align: center;
+    position: relative;
+    margin: 24px 0 20px 0;
+}
+
+.auth-divider::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.auth-divider span {
+    position: relative;
+    background: var(--bg-card);
+    padding: 0 14px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+}
+
+/* 1-Click Demo Logins (Citizen & Investigator) */
+.demo-login-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.demo-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.demo-card:hover {
+    background: var(--bg-card);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.demo-citizen-card:hover {
+    border-color: var(--blue-border);
+}
+
+.demo-investigator-card:hover {
+    border-color: var(--orange-border);
+}
+
+.demo-card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.icon-citizen {
+    background: var(--blue-light);
+    color: var(--blue-primary);
+}
+
+.icon-investigator {
+    background: var(--orange-light);
+    color: var(--orange-primary);
+}
+
+.demo-card-info {
+    flex-grow: 1;
+}
+
+.demo-role-tag {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+}
+
+.demo-user-name {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+.demo-user-email {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.demo-arrow {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.demo-card:hover .demo-arrow {
+    transform: translateX(3px);
+    color: var(--orange-primary);
+}
+
+.auth-footer-help {
+    margin-top: 24px;
+    text-align: center;
+}
+
+.security-note {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Incident Reporting Intake Page */
+.intake-page-body {
+    background-color: var(--bg-alt);
+    min-height: 100vh;
+}
+
+.intake-main-wrapper {
+    max-width: 900px;
+    margin: 40px auto 60px auto;
+    padding: 0 20px;
+}
+
+.intake-form-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-sm);
+}
+
+.intake-header {
+    margin-bottom: 32px;
+}
+
+.intake-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--orange-light);
+    border: 1px solid var(--orange-border);
+    color: var(--orange-primary);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    padding: 4px 12px;
+    border-radius: var(--radius-pill);
+    margin-bottom: 12px;
+}
+
+.intake-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.intake-subtext {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+
+.form-section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-top: var(--space-7);
+    margin-bottom: var(--space-4);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+}
+
+.required {
+    color: #ef4444;
+}
+
+/* File Upload Dropzone */
+.evidence-dropzone {
+    border: 2px dashed var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 36px 20px;
+    text-align: center;
+    background: var(--bg-alt);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: var(--space-5);
+}
+
+.evidence-dropzone:hover,
+.evidence-dropzone.dragover {
+    border-color: var(--orange-primary);
+    background: var(--orange-light);
+}
+
+.dropzone-icon {
+    font-size: 2.4rem;
+    color: var(--orange-primary);
+    margin-bottom: 10px;
+}
+
+.dropzone-main-text {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.dropzone-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Evidence Queue & Live Hash Preview */
+.evidence-queue-wrap {
+    margin-bottom: var(--space-6);
+}
+
+.evidence-queue-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.86rem;
+    margin-bottom: 12px;
+}
+
+.queue-item-card {
+    background: var(--bg-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+}
+
+.queue-item-icon {
+    font-size: 1.4rem;
+    color: var(--blue-primary);
+}
+
+.queue-item-info {
+    flex-grow: 1;
+}
+
+.queue-item-name {
+    font-size: 0.88rem;
+    color: var(--text-primary);
+}
+
+.queue-item-meta {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+}
+
+.queue-item-hash {
+    margin-top: 2px;
+    word-break: break-all;
+}
+
+.queue-remove-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+}
+
+.queue-remove-btn:hover {
+    color: #ef4444;
+}
+
+/* Legal Disclaimer */
+.legal-disclaimer-box {
+    background: var(--bg-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: var(--space-7);
+}
+
+.disclaimer-icon {
+    font-size: 1rem;
+    color: var(--orange-primary);
+    margin-top: 2px;
+}
+
+.form-submit-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+}

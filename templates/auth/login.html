@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In — CyberShield{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card card-clean p-4 p-md-5 shadow-sm border">
+                <div class="text-center mb-4">
+                    <div class="brand-icon mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-1">Sign In to CyberShield</h4>
+                    <p class="text-muted small">Access your investigation workbench or filed reports</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next')) }}">
+                    <div class="mb-3">
+                        <label for="identifier" class="form-label text-dark small fw-semibold">Email or Username</label>
+                        <input type="text" class="form-control form-control-clean" id="identifier" name="identifier" placeholder="investigator@cybershield.local" required autofocus>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label text-dark small fw-semibold">Password</label>
+                        <input type="password" class="form-control form-control-clean" id="password" name="password" placeholder="••••••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-orange w-100 py-2 fw-semibold mb-3">
+                        Sign In &rarr;
+                    </button>
+                </form>
+
+                <div class="text-center border-top pt-3">
+                    <span class="text-muted small">New citizen?</span>
+                    <a href="{{ url_for('auth.register') }}" class="text-primary small fw-semibold ms-1">Register Account</a>
+                </div>
+
+                <!-- Instant Demo Access -->
+                <div class="bg-light p-3 rounded-3 mt-4 border">
+                    <div class="fw-bold text-dark small mb-2 d-flex align-items-center gap-1">
+                        <i class="bi bi-lightning-charge-fill text-warning"></i>
+                        <span>1-Click Demo Logins:</span>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a href="{{ url_for('auth.demo_login', role='investigator') }}" class="btn btn-sm btn-white border text-start d-flex justify-content-between align-items-center bg-white">
+                            <span><i class="bi bi-shield-check text-primary me-1"></i> Inspector Sharma (Investigator)</span>
+                            <span class="badge bg-primary bg-opacity-10 text-primary">Login</span>
+                        </a>
+                        <a href="{{ url_for('auth.demo_login', role='citizen') }}" class="btn btn-sm btn-white border text-start d-flex justify-content-between align-items-center bg-white">
+                            <span><i class="bi bi-person text-success me-1"></i> Aarav Patel (Complainant)</span>
+                            <span class="badge bg-success bg-opacity-10 text-success">Login</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Cyber Incident — CyberShield</title>
+    <!-- Fonts: Manrope, DM Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="intake-page-body">
+    <!-- Clean Header -->
+    <header class="site-header">
+        <div class="navbar-container">
+            <a href="/" class="brand-wrap">
+                <div class="brand-shield">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="brand-meta">
+                    <span class="brand-name">CyberShield</span>
+                    <span class="brand-tagline">Incident Reporting Intake</span>
+                </div>
+            </a>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link-item" data-i18n="nav_home">Home</a></li>
+                    <li><a href="/pages/cases.html" class="nav-link-item" data-i18n="nav_cases">Cases</a></li>
+                    <li><a href="/pages/dashboard.html" class="nav-link-item" data-i18n="nav_dashboard">Dashboard</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="nav-control-btn theme-toggle-btn" onclick="CyberShield.toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="nav-control-btn lang-toggle-btn" onclick="CyberShield.toggleLanguage()" title="Switch Language" aria-label="Switch Language">
+                    <i class="fa-solid fa-language"></i>
+                    <span class="lang-text-badge">EN</span>
+                </button>
+                <a href="/pages/login.html" class="btn btn-outline" data-i18n="nav_login">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Intake Container -->
+    <main class="intake-main-wrapper">
+        <div class="intake-form-card">
+            <!-- Form Header -->
+            <div class="intake-header">
+                <div class="intake-header-badge">
+                    <i class="fa-solid fa-file-shield"></i> DIGITAL EVIDENCE INTAKE
+                </div>
+                <h1 class="intake-title">Lodge Cybercrime Complaint</h1>
+                <p class="intake-subtext">Provide the incident narrative and attach screenshots, bank receipts, or chat logs. Each uploaded file receives an immediate cryptographic SHA-256 fingerprint.</p>
+            </div>
+
+            <!-- Citizen Verification Status Banner -->
+            <div id="citizenIdentityBanner" style="display: none; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-md); padding: 12px 18px; margin-bottom: 24px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fa-solid fa-circle-check text-blue" style="font-size: 1.2rem;"></i>
+                    <div>
+                        <div style="font-size: 0.88rem; font-weight: 700; color: var(--text-primary);" id="citizenNameText">Verified Citizen: Aarav Patel</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono);" id="citizenPhoneText">Mobile: +91 98223 34455</div>
+                    </div>
+                </div>
+                <span class="role-tag-badge">Citizen OTP Verified</span>
+            </div>
+
+            <!-- Complaint Submission Form -->
+            <form action="/citizen/report" method="POST" enctype="multipart/form-data" class="clean-form" id="complaintForm">
+                <!-- Section 1: Incident Specifics -->
+                <div class="form-section-title">
+                    <i class="fa-solid fa-circle-info text-blue"></i>
+                    <span>1. Incident Classification & Details</span>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="title" class="form-label">Incident Subject / Brief Title <span class="required">*</span></label>
+                        <input type="text" id="title" name="title" class="form-input" placeholder="e.g. OLX Advance Payment Fraud or WhatsApp Job Scam" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category" class="form-label">Cybercrime Category <span class="required">*</span></label>
+                        <select id="category" name="category" class="form-select" required>
+                            <option value="" disabled selected>Select crime category...</option>
+                            <option value="Online Payment Fraud">Online Payment Fraud (UPI / QR Code / Netbanking)</option>
+                            <option value="Financial Fraud">Financial & Investment Fraud (Crypto / Forex / Doubling)</option>
+                            <option value="Phishing & Identity Theft">Phishing & Identity Theft (Fake SMS / Fake Banking Portal)</option>
+                            <option value="Social Media Fraud">Social Media Extortion & Impersonation</option>
+                            <option value="Ransomware & Malware">Ransomware & Malware Attack</option>
+                            <option value="Other Cyber Attack">Other Digital Cybercrime</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="incident_date" class="form-label">Date & Time of Occurrence <span class="required">*</span></label>
+                        <input type="datetime-local" id="incident_date" name="incident_date" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loss_amount" class="form-label">Total Financial Loss (INR ₹)</label>
+                        <input type="number" id="loss_amount" name="loss_amount" class="form-input" placeholder="e.g. 25000" min="0" step="0.01">
+                    </div>
+                </div>
+
+                <!-- Section 2: Suspect Identifiers -->
+                <div class="form-section-title">
+                    <i class="fa-solid fa-user-ninja text-purple"></i>
+                    <span>2. Known Suspect Identifiers (If Available)</span>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="suspect_phone" class="form-label">Suspect Phone / WhatsApp Number</label>
+                        <input type="text" id="suspect_phone" name="suspect_phone" class="form-input" placeholder="e.g. +91 98765 43210">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suspect_upi" class="form-label">Suspect UPI ID / VPA</label>
+                        <input type="text" id="suspect_upi" name="suspect_upi" class="form-input" placeholder="e.g. scammer_merchant@okhdfcbank">
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label for="suspect_email" class="form-label">Suspect Email Address</label>
+                        <input type="email" id="suspect_email" name="suspect_email" class="form-input" placeholder="e.g. support@fakebanking-alerts.net">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="suspect_platform" class="form-label">Platform Used by Scammer</label>
+                        <input type="text" id="suspect_platform" name="suspect_platform" class="form-input" placeholder="e.g. WhatsApp, Telegram, Instagram, OLX">
+                    </div>
+                </div>
+
+                <!-- Section 3: Narrative -->
+                <div class="form-section-title">
+                    <i class="fa-solid fa-align-left text-orange"></i>
+                    <span>3. Incident Description</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="description" class="form-label">Comprehensive Chronological Narrative <span class="required">*</span></label>
+                    <textarea id="description" name="description" rows="4" class="form-textarea" placeholder="Detail how the suspect contacted you, what instructions they gave, transaction details, and when you realized it was fraudulent..." required></textarea>
+                </div>
+
+                <!-- Section 4: Digital Evidence Dropzone -->
+                <div class="form-section-title">
+                    <i class="fa-solid fa-vault text-green"></i>
+                    <span>4. Attach Digital Evidence (Images, PDFs, Chat Exports)</span>
+                </div>
+
+                <div class="evidence-dropzone" id="evidenceDropzone">
+                    <input type="file" id="evidenceFileInput" name="evidence_files" multiple accept=".png,.jpg,.jpeg,.pdf,.txt" style="display: none;">
+                    <div class="dropzone-icon">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    </div>
+                    <div class="dropzone-main-text">Click or drag files here to attach evidence</div>
+                    <div class="dropzone-hint">Supports PNG, JPG, JPEG, PDF, and TXT files (up to 25MB each)</div>
+                </div>
+
+                <!-- Live Client-Side Hash Queue -->
+                <div id="selectedFilesList" class="evidence-queue-wrap"></div>
+
+                <!-- Disclaimer Notice -->
+                <div class="legal-disclaimer-box">
+                    <i class="fa-solid fa-circle-exclamation disclaimer-icon"></i>
+                    <div>
+                        <strong>Notice & Legal Scope:</strong> CyberShield is an investigation-support and evidence processing system. Submitting here stores digital files securely with cryptographic proof. For official law enforcement intervention, ensure you also lodge your grievance at the official national cyber portal.
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-submit-row">
+                    <button type="submit" class="btn btn-primary btn-large">
+                        <i class="fa-solid fa-shield-check"></i>
+                        <span>Register Complaint & Generate Case ID</span>
+                    </button>
+                    <a href="/" class="btn btn-outline btn-large">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/report-incident.js"></script>
+</body>
+</html>

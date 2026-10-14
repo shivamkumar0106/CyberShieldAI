@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}My Complaints — CyberShield{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold text-dark mb-1">My Filed Complaints</h3>
+            <p class="text-muted small mb-0">Track verification findings and preserved evidence records</p>
+        </div>
+        <a href="{{ url_for('cases.submit_complaint') }}" class="btn btn-orange">
+            <i class="bi bi-plus-lg me-1"></i> New Complaint
+        </a>
+    </div>
+
+    {% if cases %}
+    <div class="card card-clean p-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-clean mb-0">
+                <thead>
+                    <tr>
+                        <th>Case Ref</th>
+                        <th>Incident Category & Title</th>
+                        <th>Loss Amount</th>
+                        <th>Status</th>
+                        <th>Evidence</th>
+                        <th>Filing Date</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in cases %}
+                    <tr>
+                        <td class="font-monospace text-primary fw-bold">{{ c['case_id'] }}</td>
+                        <td>
+                            <div class="fw-semibold text-dark">{{ c['title'] }}</div>
+                            <small class="text-muted">{{ c['category'] }}</small>
+                        </td>
+                        <td class="text-orange fw-bold">{{ c['loss_amount'] | inr }}</td>
+                        <td>
+                            <span class="badge-status 
+                                {% if c['status'] == 'Submitted' %}badge-status-submitted
+                                {% elif c['status'] == 'Under Review' %}badge-status-review
+                                {% elif c['status'] == 'Evidence Verified' %}badge-status-verified
+                                {% else %}badge-status-report{% endif %}">
+                                {{ c['status'] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border">
+                                <i class="bi bi-file-earmark me-1"></i> {{ c['evidence_count'] }} Files
+                            </span>
+                        </td>
+                        <td class="small text-muted">{{ c['reported_date'] | datetime_fmt }}</td>
+                        <td class="text-end">
+                            <a href="{{ url_for('cases.track_case', case_ref=c['case_id']) }}" class="btn btn-sm btn-light-pill">
+                                <i class="bi bi-eye me-1"></i> Track
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+    <div class="card card-clean text-center py-5">
+        <div class="fs-1 text-muted mb-3"><i class="bi bi-inbox"></i></div>
+        <h5 class="text-dark">No complaints filed yet</h5>
+        <p class="text-muted small mb-3">If you encountered online fraud or cyber harassment, file an incident report.</p>
+        <div>
+            <a href="{{ url_for('cases.submit_complaint') }}" class="btn btn-orange">
+                <i class="bi bi-shield-plus me-1"></i> File a Complaint
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

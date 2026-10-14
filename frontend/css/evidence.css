@@ -1,0 +1,141 @@
+/* ==========================================================================
+   CyberShield — Evidence Vault & Cryptographic Integrity Styles
+   Clean card grid with SHA-256 badges, copy utilities & live verification
+   ========================================================================== */
+
+.evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-5);
+}
+
+.evidence-vault-card,
+.evidence-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.evidence-vault-card:hover,
+.evidence-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--orange-border);
+}
+
+.vault-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.vault-file-icon,
+.evidence-icon-wrap {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+}
+
+.icon-img, .evidence-icon-img { background: #eff6ff; color: #2563eb; }
+.icon-pdf, .evidence-icon-pdf { background: #fee2e2; color: #dc2626; }
+.icon-txt, .evidence-icon-txt { background: #f1f5f9; color: #475569; }
+
+[data-theme="dark"] .icon-img { background: rgba(37, 99, 235, 0.15); color: #60a5fa; }
+[data-theme="dark"] .icon-pdf { background: rgba(220, 38, 38, 0.15); color: #f87171; }
+[data-theme="dark"] .icon-txt { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
+
+.vault-file-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.vault-file-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: var(--radius-pill);
+    background: var(--bg-alt);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+}
+
+.vault-card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.vault-file-name,
+.evidence-name {
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    word-break: break-all;
+    margin-bottom: var(--space-2);
+    line-height: 1.3;
+}
+
+.vault-case-ref {
+    font-family: var(--font-mono);
+    margin-bottom: var(--space-2);
+}
+
+.vault-size-time,
+.evidence-meta-row {
+    display: flex;
+    gap: var(--space-3);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-4);
+}
+
+/* Hash Container */
+.hash-box-container,
+.hash-badge-container {
+    background: var(--bg-alt);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    margin-bottom: var(--space-4);
+}
+
+.hash-box-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-bottom: var(--space-1);
+}
+
+.hash-code {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    word-break: break-all;
+    line-height: 1.45;
+}
+
+.vault-card-footer,
+.evidence-card-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: auto;
+}
+
+.vault-card-footer .btn {
+    flex: 1;
+}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}500 Internal Error — CyberShield AI{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="card card-cyber p-5 mx-auto" style="max-width: 550px;">
+        <div class="fs-1 text-danger mb-3"><i class="bi bi-exclamation-octagon-fill"></i></div>
+        <h3 class="fw-bold text-white mb-2">Processing Error</h3>
+        <p class="text-secondary small mb-4">
+            An unexpected server processing exception occurred while executing digital evidence analysis.
+        </p>
+        <div>
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Return Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

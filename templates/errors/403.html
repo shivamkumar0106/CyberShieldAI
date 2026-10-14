@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}403 Forbidden — CyberShield AI{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="card card-cyber p-5 mx-auto" style="max-width: 550px;">
+        <div class="fs-1 text-danger mb-3"><i class="bi bi-shield-lock-fill"></i></div>
+        <h3 class="fw-bold text-white mb-2">Access Restricted</h3>
+        <p class="text-secondary small mb-4">
+            You do not possess the required credentials or authorization role (Investigator / Administrator) to view this digital forensics workspace.
+        </p>
+        <div>
+            <a href="{{ url_for('index') }}" class="btn btn-outline-info me-2">Return Home</a>
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Sign In as Investigator</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

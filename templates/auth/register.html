@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Register Account — CyberShield{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card card-clean p-4 p-md-5 shadow-sm border">
+                <div class="text-center mb-4">
+                    <div class="brand-icon mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
+                        <i class="bi bi-person-plus"></i>
+                    </div>
+                    <h4 class="fw-bold text-dark mb-1">Create Citizen Account</h4>
+                    <p class="text-muted small">Report cybercrime incidents and preserve evidence securely</p>
+                </div>
+
+                <form method="POST" action="{{ url_for('auth.register') }}">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label for="full_name" class="form-label text-dark small fw-semibold">Full Legal Name</label>
+                            <input type="text" class="form-control form-control-clean" id="full_name" name="full_name" placeholder="Aarav Patel" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="email" class="form-label text-dark small fw-semibold">Email Address</label>
+                            <input type="email" class="form-control form-control-clean" id="email" name="email" placeholder="name@example.com" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label text-dark small fw-semibold">Mobile Number</label>
+                            <input type="tel" class="form-control form-control-clean" id="phone" name="phone" placeholder="+91 9876543210">
+                        </div>
+
+                        <div class="col-12">
+                            <label for="username" class="form-label text-dark small fw-semibold">Username</label>
+                            <input type="text" class="form-control form-control-clean" id="username" name="username" placeholder="aarav_patel" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="password" class="form-label text-dark small fw-semibold">Password</label>
+                            <input type="password" class="form-control form-control-clean" id="password" name="password" placeholder="••••••••••••" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="confirm_password" class="form-label text-dark small fw-semibold">Confirm Password</label>
+                            <input type="password" class="form-control form-control-clean" id="confirm_password" name="confirm_password" placeholder="••••••••••••" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-orange w-100 py-2 fw-semibold mt-4">
+                        Register Account &rarr;
+                    </button>
+                </form>
+
+                <div class="text-center border-top pt-3 mt-3">
+                    <span class="text-muted small">Already have an account?</span>
+                    <a href="{{ url_for('auth.login') }}" class="text-primary small fw-semibold ms-1">Sign In Here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

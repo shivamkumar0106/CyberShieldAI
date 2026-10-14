@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}Investigator Dashboard — CyberShield{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-4 py-4">
+    <!-- Header with investigator profile -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h3 class="fw-bold text-dark mb-1">
+                Investigation Command Center
+            </h3>
+            <p class="text-muted small mb-0">
+                Digital evidence triage, cryptographic hash integrity tracking, and relationship analysis.
+            </p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-light text-dark border p-2">
+                <i class="bi bi-person-badge text-primary me-1"></i> {{ current_user.full_name }} ({{ current_user.badge_number or 'CYBER-INV' }})
+            </span>
+            <a href="{{ url_for('cases.submit_complaint') }}" class="btn btn-sm btn-orange">
+                <i class="bi bi-plus-lg me-1"></i> New Intake
+            </a>
+        </div>
+    </div>
+
+    <!-- 5 Clean KPI Cards matching reference style -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-2 col-6">
+            <div class="card card-clean p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small fw-medium">Total Cases</div>
+                        <div class="fs-4 fw-bold text-dark">{{ total_cases }}</div>
+                    </div>
+                    <div class="feature-icon-squircle m-0 bg-primary bg-opacity-10 text-primary" style="width:38px; height:38px; font-size:1.1rem;">
+                        <i class="bi bi-folder2-open"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="card card-clean p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small fw-medium">Under Review</div>
+                        <div class="fs-4 fw-bold text-warning-emphasis">{{ pending_cases }}</div>
+                    </div>
+                    <div class="feature-icon-squircle m-0 bg-warning bg-opacity-10 text-warning" style="width:38px; height:38px; font-size:1.1rem;">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 col-6">
+            <div class="card card-clean p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small fw-medium">Verified</div>
+                        <div class="fs-4 fw-bold text-success">{{ verified_cases }}</div>
+                    </div>
+                    <div class="feature-icon-squircle m-0 bg-success bg-opacity-10 text-success" style="width:38px; height:38px; font-size:1.1rem;">
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="card card-clean p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-muted small fw-medium">Digital Artifacts</div>
+                        <div class="fs-4 fw-bold text-primary">{{ total_evidence }}</div>
+                    </div>
+                    <div class="feature-icon-squircle m-0 bg-info bg-opacity-10 text-info" style="width:38px; height:38px; font-size:1.1rem;">
+                        <i class="bi bi-file-earmark-lock2"></i>
+                    </div>
+                </div>
+                <div class="text-muted" style="font-size:0.72rem;">SHA-256 Custody Tracking</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-12">
+            <div class="card card-clean p-3 border-danger border-opacity-25">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="text-danger small fw-semibold">High Priority Flags</div>
+                        <div class="fs-4 fw-bold text-danger">{{ high_findings }}</div>
+                    </div>
+                    <div class="feature-icon-squircle m-0 bg-danger bg-opacity-10 text-danger" style="width:38px; height:38px; font-size:1.1rem;">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                    </div>
+                </div>
+                <div class="text-muted" style="font-size:0.72rem;">Discrepancies & Gaps</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter and Search Toolbar -->
+    <div class="card card-clean p-3 mb-4">
+        <form method="GET" action="{{ url_for('cases.investigator_dashboard') }}" class="row g-2 align-items-center">
+            <div class="col-lg-4 col-md-6">
+                <div class="input-group input-group-sm">
+                    <span class="input-group-text bg-white border text-muted"><i class="bi bi-search"></i></span>
+                    <input type="text" class="form-control form-control-clean border-start-0" name="q" placeholder="Search by Case ID, Suspect UPI, Phone, keywords..." value="{{ search_query }}">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <select class="form-select form-select-sm form-select-clean" name="category">
+                    <option value="">All Categories</option>
+                    {% for cat in categories %}
+                    <option value="{{ cat }}" {% if current_cat == cat %}selected{% endif %}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <select class="form-select form-select-sm form-select-clean" name="status">
+                    <option value="">All Statuses</option>
+                    {% for st in statuses %}
+                    <option value="{{ st }}" {% if current_status == st %}selected{% endif %}>{{ st }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-2 col-md-12 d-flex gap-2">
+                <button type="submit" class="btn btn-sm btn-orange w-100 fw-semibold">Apply Filters</button>
+                <a href="{{ url_for('cases.investigator_dashboard') }}" class="btn btn-sm btn-light-pill">Reset</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Main Investigation Triage Table -->
+    <div class="card card-clean p-0 overflow-hidden">
+        <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+            <h6 class="fw-bold text-dark mb-0">Active Dossiers ({{ cases | length }})</h6>
+            <span class="text-muted small">Select any case to open the digital forensics workbench</span>
+        </div>
+
+        {% if cases %}
+        <div class="table-responsive">
+            <table class="table table-clean align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Case Ref</th>
+                        <th>Category & Title</th>
+                        <th>Complainant</th>
+                        <th>Loss Amount</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Evidence</th>
+                        <th>Rule Findings</th>
+                        <th>Date</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in cases %}
+                    <tr>
+                        <td class="font-monospace fw-bold text-primary">
+                            <a href="{{ url_for('cases.case_workbench', case_id=c['id']) }}" class="text-primary text-decoration-none">
+                                {{ c['case_id'] }}
+                            </a>
+                        </td>
+                        <td>
+                            <div class="fw-semibold text-dark">{{ c['title'] }}</div>
+                            <small class="text-muted">{{ c['category'] }}</small>
+                        </td>
+                        <td class="small text-muted">{{ c['complainant_name'] }}</td>
+                        <td class="text-orange fw-bold">{{ c['loss_amount'] | inr }}</td>
+                        <td>
+                            <span class="badge {% if c['priority'] == 'High' %}bg-danger bg-opacity-10 text-danger border border-danger{% elif c['priority'] == 'Medium' %}bg-warning bg-opacity-10 text-warning-emphasis border border-warning{% else %}bg-light text-muted border{% endif %}">
+                                {{ c['priority'] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge-status 
+                                {% if c['status'] == 'Submitted' %}badge-status-submitted
+                                {% elif c['status'] == 'Under Review' %}badge-status-review
+                                {% elif c['status'] == 'Evidence Verified' %}badge-status-verified
+                                {% else %}badge-status-report{% endif %}">
+                                {{ c['status'] }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge bg-light text-dark border">
+                                <i class="bi bi-file-earmark-lock me-1"></i> {{ c['evidence_count'] }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if c['high_flags'] > 0 %}
+                            <span class="badge bg-danger text-white">
+                                <i class="bi bi-exclamation-triangle me-1"></i> {{ c['high_flags'] }} Alerts
+                            </span>
+                            {% elif c['total_findings'] > 0 %}
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success">
+                                <i class="bi bi-check2 me-1"></i> {{ c['total_findings'] }} Rules
+                            </span>
+                            {% else %}
+                            <span class="text-muted small">0 findings</span>
+                            {% endif %}
+                        </td>
+                        <td class="small text-muted">{{ c['reported_date'] | datetime_fmt }}</td>
+                        <td class="text-end">
+                            <a href="{{ url_for('cases.case_workbench', case_id=c['id']) }}" class="btn btn-sm btn-light-pill">
+                                Workbench &rarr;
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="text-center py-5 text-muted">
+            <i class="bi bi-filter-circle fs-2 d-block mb-2"></i>
+            No cases match the selected filter criteria.
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,557 @@
+{% extends "base.html" %}
+
+{% block title %}Case Workbench: {{ case['case_id'] }} — CyberShield{% endblock %}
+
+{% block extra_head %}
+<!-- Cytoscape.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-4 py-3">
+    <!-- Top Workbench Header (Clean White Design) -->
+    <div class="card card-clean p-4 mb-3 border">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-light text-primary border font-monospace fs-6 px-3 py-1">{{ case['case_id'] }}</span>
+                    <span class="badge-status 
+                        {% if case['status'] == 'Submitted' %}badge-status-submitted
+                        {% elif case['status'] == 'Under Review' %}badge-status-review
+                        {% elif case['status'] == 'Evidence Verified' %}badge-status-verified
+                        {% else %}badge-status-report{% endif %}">
+                        {{ case['status'] }}
+                    </span>
+                    <span class="badge {% if case['priority'] == 'High' %}bg-danger bg-opacity-10 text-danger border border-danger{% elif case['priority'] == 'Medium' %}bg-warning bg-opacity-10 text-warning-emphasis border border-warning{% else %}bg-light text-muted border{% endif %}">
+                        {{ case['priority'] }} Priority
+                    </span>
+                </div>
+                <h4 class="fw-bold text-dark mb-0">{{ case['title'] }}</h4>
+                <div class="text-muted small mt-1">
+                    <span class="text-primary"><i class="bi bi-tag me-1"></i>{{ case['category'] }}</span> &bull; 
+                    <span>Complainant: <b>{{ case['complainant_name'] }}</b> ({{ case['complainant_phone'] or case['complainant_email'] }})</span> &bull;
+                    <span>Incident Date: <b>{{ case['incident_date'] }}</b></span>
+                </div>
+            </div>
+
+            <!-- Action Buttons & Status Updater -->
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <button type="button" class="btn btn-sm btn-light-pill" onclick="rerunAnalysis({{ case['id'] }}, this)">
+                    <i class="bi bi-arrow-clockwise text-primary me-1"></i> Re-Run Analysis
+                </button>
+
+                <a href="{{ url_for('cases.trigger_report_generation', case_id=case['id']) }}" class="btn btn-sm btn-orange">
+                    <i class="bi bi-file-earmark-pdf me-1"></i> Generate PDF Dossier
+                </a>
+
+                <button class="btn btn-sm btn-light-pill" data-bs-toggle="modal" data-bs-target="#updateStatusModal">
+                    <i class="bi bi-sliders me-1"></i> Status
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Workbench Nav Tabs -->
+    <ul class="nav nav-tabs nav-tabs-clean mb-3" id="workbenchTabs" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active" id="narrative-tab" data-bs-toggle="tab" data-bs-target="#tab-narrative" type="button">
+                <i class="bi bi-card-text me-1"></i> Overview
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="evidence-tab" data-bs-toggle="tab" data-bs-target="#tab-evidence" type="button">
+                <i class="bi bi-file-earmark-lock me-1"></i> Evidence Inventory ({{ evidence_files | length }})
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="extraction-tab" data-bs-toggle="tab" data-bs-target="#tab-extraction" type="button">
+                <i class="bi bi-cpu me-1"></i> Extracted Entities ({{ entities | length }})
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="findings-tab" data-bs-toggle="tab" data-bs-target="#tab-findings" type="button">
+                <i class="bi bi-check2-all me-1"></i> Consistency Findings ({{ findings | length }})
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="timeline-tab" data-bs-toggle="tab" data-bs-target="#tab-timeline" type="button">
+                <i class="bi bi-clock-history me-1"></i> Incident Timeline ({{ timeline_events | length }})
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="graph-tab" data-bs-toggle="tab" data-bs-target="#tab-graph" type="button" onclick="setTimeout(() => initRelationshipGraph({{ case['id'] }}), 150)">
+                <i class="bi bi-diagram-3 me-1"></i> Relationship Graph
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#tab-notes" type="button">
+                <i class="bi bi-journal-text me-1"></i> Notes ({{ notes | length }})
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" id="audit-tab" data-bs-toggle="tab" data-bs-target="#tab-audit" type="button">
+                <i class="bi bi-fingerprint me-1"></i> Custody Audit ({{ audit_records | length }})
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Contents -->
+    <div class="tab-content" id="workbenchTabsContent">
+
+        <!-- TAB 1: OVERVIEW & STATEMENT -->
+        <div class="tab-pane fade show active" id="tab-narrative" role="tabpanel">
+            <div class="row g-3">
+                <div class="col-lg-8">
+                    <div class="card card-clean p-4 h-100">
+                        <h6 class="fw-bold text-dark mb-3"><i class="bi bi-person-lines-fill text-primary me-2"></i>Complainant Statement</h6>
+                        <div class="bg-light p-3 rounded border text-secondary mb-4" style="line-height: 1.65;">
+                            {{ case['description'] }}
+                        </div>
+
+                        <h6 class="fw-bold text-dark mb-2"><i class="bi bi-person-x-fill text-danger me-2"></i>Suspect Identifiers Provided</h6>
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <div class="p-2 bg-light rounded border">
+                                    <small class="text-muted d-block">Phone Number</small>
+                                    <span class="text-dark fw-semibold">{{ case['suspect_phone'] or 'Not provided' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-2 bg-light rounded border">
+                                    <small class="text-muted d-block">UPI ID</small>
+                                    <span class="text-success fw-semibold font-monospace">{{ case['suspect_upi'] or 'Not provided' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-2 bg-light rounded border">
+                                    <small class="text-muted d-block">Email</small>
+                                    <span class="text-dark fw-semibold">{{ case['suspect_email'] or 'Not provided' }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="p-2 bg-light rounded border">
+                                    <small class="text-muted d-block">Platform</small>
+                                    <span class="text-dark fw-semibold">{{ case['suspect_platform'] or 'Not specified' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="card card-clean p-4 mb-3">
+                        <h6 class="fw-bold text-dark mb-3"><i class="bi bi-currency-rupee text-warning me-1"></i>Financial Loss Triage</h6>
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted small">Claimed Loss:</span>
+                            <span class="text-orange fw-bold fs-5">{{ case['loss_amount'] | inr }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted small">Documented Receipts:</span>
+                            <span class="text-success fw-bold">
+                                {% set amt_entities = entities | selectattr("entity_type", "equalto", "AMOUNT") | list %}
+                                {% if amt_entities %}
+                                    {{ amt_entities | map(attribute='entity_value') | list | join(', ') }}
+                                {% else %}
+                                    None Extracted
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="card card-clean p-3 border-warning bg-light">
+                        <h6 class="text-dark fw-bold small mb-1"><i class="bi bi-shield-check text-primary me-1"></i>Advisory Notice</h6>
+                        <p class="text-muted small mb-0">
+                            CyberShield assists human investigators. It does not replace police FIRs or statutory forensic laboratories.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: EVIDENCE INVENTORY & SHA-256 INTEGRITY -->
+        <div class="tab-pane fade" id="tab-evidence" role="tabpanel">
+            <div class="card card-clean p-0 overflow-hidden mb-3">
+                <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="fw-bold text-dark mb-0">Digital Evidence Inventory</h6>
+                        <span class="text-muted small">Read-only custody preserved with immediate SHA-256 cryptographic hashing.</span>
+                    </div>
+                    <button class="btn btn-sm btn-light-pill" data-bs-toggle="collapse" data-bs-target="#uploadMoreBox">
+                        <i class="bi bi-plus-circle me-1"></i> Add Evidence
+                    </button>
+                </div>
+
+                <!-- Supplementary upload box -->
+                <div class="collapse p-3 bg-light border-bottom" id="uploadMoreBox">
+                    <form method="POST" action="{{ url_for('cases.upload_additional_evidence', case_id=case['id']) }}" enctype="multipart/form-data">
+                        <label class="form-label text-dark small fw-semibold">Add supplementary files:</label>
+                        <div class="input-group input-group-sm">
+                            <input type="file" name="evidence_files" class="form-control form-control-clean" multiple accept=".jpg,.jpeg,.png,.pdf,.txt" required>
+                            <button type="submit" class="btn btn-orange">Upload & Extract</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-clean align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Format</th>
+                                <th>Size</th>
+                                <th>Upload Time</th>
+                                <th>Method</th>
+                                <th>SHA-256 Cryptographic Hash</th>
+                                <th class="text-end">Verification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ef in evidence_files %}
+                            <tr>
+                                <td>
+                                    <div class="fw-semibold text-dark">
+                                        <i class="bi {% if ef['file_type'] == 'pdf' %}bi-file-pdf text-danger{% elif ef['file_type'] == 'image' %}bi-file-image text-info{% else %}bi-file-text text-secondary{% endif %} me-1"></i>
+                                        {{ ef['original_filename'] }}
+                                    </div>
+                                    <small class="text-muted">{{ ef['mime_type'] }}</small>
+                                </td>
+                                <td><span class="badge bg-light text-dark border text-uppercase">{{ ef['file_type'] }}</span></td>
+                                <td class="small">{{ (ef['file_size'] / 1024) | round(1) }} KB</td>
+                                <td class="small text-muted">{{ ef['upload_time'] | datetime_fmt }}</td>
+                                <td>
+                                    <span class="badge bg-light text-primary border small">
+                                        {{ ef['extraction_method'] or 'Processed' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-1">
+                                        <span class="hash-pill-light">{{ ef['sha256_hash'] }}</span>
+                                        <button class="btn btn-sm btn-white border p-1 text-muted" onclick="copyToClipboard('{{ ef['sha256_hash'] }}', this)" title="Copy SHA-256">
+                                            <i class="bi bi-clipboard"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="text-end text-nowrap">
+                                    <button class="btn btn-sm btn-light-pill text-success border-success me-1" onclick="triggerLiveHashVerify({{ ef['id'] }}, '{{ ef['original_filename'] }}')">
+                                        <i class="bi bi-shield-check me-1"></i> Verify Hash
+                                    </button>
+                                    <a href="{{ url_for('cases.view_evidence_file', evidence_id=ef['id']) }}" target="_blank" class="btn btn-sm btn-light-pill">
+                                        <i class="bi bi-box-arrow-up-right"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: OCR & ENTITY EXTRACTION RESULTS -->
+        <div class="tab-pane fade" id="tab-extraction" role="tabpanel">
+            <div class="card card-clean p-4 mb-4">
+                <h6 class="fw-bold text-dark mb-3">Structured Entities Identified (spaCy & Regex)</h6>
+                <div class="d-flex flex-wrap gap-2">
+                    {% for ent in entities %}
+                    <div class="entity-pill 
+                        {% if ent['entity_type'] == 'UPI_ID' %}entity-pill-upi
+                        {% elif ent['entity_type'] == 'PHONE' %}entity-pill-phone
+                        {% elif ent['entity_type'] == 'TXN_REF' %}entity-pill-txn
+                        {% elif ent['entity_type'] == 'AMOUNT' %}entity-pill-amount
+                        {% elif ent['entity_type'] == 'EMAIL' %}entity-pill-email
+                        {% elif ent['entity_type'] == 'URL_DOMAIN' %}entity-pill-url
+                        {% else %}bg-light text-dark border{% endif %}">
+                        <span class="fw-bold">{{ ent['entity_type'] }}:</span>
+                        <span>{{ ent['entity_value'] }}</span>
+                        <span class="badge bg-white text-muted border py-0 px-1 font-monospace" style="font-size: 0.65rem;">
+                            {{ ent['original_filename'] }}
+                        </span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Extracted transcripts -->
+            <div class="card card-clean p-4">
+                <h6 class="fw-bold text-dark mb-3">Extracted & OCR Transcripts</h6>
+                <div class="accordion" id="accordionExtractedText">
+                    {% for et in extracted_texts %}
+                    <div class="accordion-item border rounded-3 mb-2 overflow-hidden">
+                        <h2 class="accordion-header" id="heading{{ et['id'] }}">
+                            <button class="accordion-button bg-light text-dark collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ et['id'] }}">
+                                <span class="fw-bold text-primary me-2">{{ et['original_filename'] }}</span>
+                                <span class="badge bg-white text-dark border me-2">Page {{ et['source_page'] }}</span>
+                                <span class="badge bg-white text-muted border me-2">{{ et['extraction_method'] }}</span>
+                                <small class="text-muted ms-auto me-3">{{ et['quality_notes'] }}</small>
+                            </button>
+                        </h2>
+                        <div id="collapse{{ et['id'] }}" class="accordion-collapse collapse" data-bs-parent="#accordionExtractedText">
+                            <div class="accordion-body bg-white text-dark font-monospace small" style="white-space: pre-wrap; max-height: 350px; overflow-y: auto;">
+                                {{ et['text_content'] }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: CONSISTENCY FINDINGS (RULE ENGINE) -->
+        <div class="tab-pane fade" id="tab-findings" role="tabpanel">
+            <div class="card card-clean p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold text-dark mb-0">Cross-Evidence Consistency & Anomaly Findings</h6>
+                    <span class="badge bg-light text-dark border">{{ findings | length }} Findings</span>
+                </div>
+
+                <div class="row g-3">
+                    {% for f in findings %}
+                    <div class="col-12">
+                        <div class="p-3 rounded-3 border 
+                            {% if f['severity'] == 'HIGH' %}border-danger bg-danger bg-opacity-10
+                            {% elif f['severity'] == 'MEDIUM' %}border-warning bg-warning bg-opacity-10
+                            {% else %}border-success bg-success bg-opacity-10{% endif %}">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <span class="badge 
+                                        {% if f['severity'] == 'HIGH' %}bg-danger text-white
+                                        {% elif f['severity'] == 'MEDIUM' %}bg-warning text-dark
+                                        {% else %}bg-success text-white{% endif %}">
+                                        {{ f['severity'] }}
+                                    </span>
+                                    <span class="badge bg-white text-dark border small">{{ f['category'].replace('_', ' ') }}</span>
+                                    <h6 class="fw-bold text-dark mb-0">{{ f['title'] }}</h6>
+                                </div>
+                                <span class="badge bg-white text-muted border small">{{ f['status'] }}</span>
+                            </div>
+                            <p class="text-secondary small mb-2" style="line-height: 1.55;">
+                                {{ f['explanation'] }}
+                            </p>
+                            <div class="d-flex justify-content-between align-items-center text-muted small pt-2 border-top">
+                                <span><i class="bi bi-gear me-1"></i> Rule: <code>{{ f['rule_name'] }}</code></span>
+                                <span>{{ f['created_at'] | datetime_fmt }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: INCIDENT TIMELINE -->
+        <div class="tab-pane fade" id="tab-timeline" role="tabpanel">
+            <div class="card card-clean p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-bold text-dark mb-0">Reconstructed Incident Timeline</h6>
+                    <span class="badge bg-light text-dark border">{{ timeline_events | length }} Milestones</span>
+                </div>
+
+                {% if timeline_events %}
+                <div class="timeline-track-light">
+                    {% for ev in timeline_events %}
+                    <div class="timeline-item-light">
+                        <div class="timeline-dot-light {% if 'Verified' in ev['verification_status'] %}verified{% endif %}"></div>
+                        <div class="p-3 bg-light rounded-3 border">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <span class="fw-bold text-dark small">{{ ev['title'] }}</span>
+                                <span class="badge bg-white text-muted border font-monospace">{{ ev['event_date'] }} {{ ev['event_time'] or '' }}</span>
+                            </div>
+                            <p class="text-muted small mb-2">{{ ev['description'] }}</p>
+                            <div class="d-flex gap-2 small">
+                                <span class="badge bg-white text-dark border">
+                                    <i class="bi bi-file-earmark me-1"></i> {{ ev['source_reference'] or 'Case File' }}
+                                </span>
+                                <span class="badge bg-white text-{% if 'Verified' in ev['verification_status'] %}success{% else %}warning{% endif %} border">
+                                    {{ ev['verification_status'] }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- TAB 6: CYTOSCAPE.JS RELATIONSHIP GRAPH -->
+        <div class="tab-pane fade" id="tab-graph" role="tabpanel">
+            <div class="card card-clean p-3">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-2">
+                    <div>
+                        <h6 class="fw-bold text-dark mb-0">Evidence & Identifier Relationship Network</h6>
+                        <span id="graphStatsText" class="text-muted small">Loading network topology...</span>
+                    </div>
+                    <!-- Controls -->
+                    <div class="d-flex flex-wrap align-items-center gap-2">
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-light-pill" onclick="changeGraphLayout('cose')">Force Directed</button>
+                            <button class="btn btn-light-pill" onclick="changeGraphLayout('concentric')">Concentric</button>
+                            <button class="btn btn-light-pill" onclick="changeGraphLayout('circle')">Circle</button>
+                            <button class="btn btn-light-pill" onclick="changeGraphLayout('breadthfirst')">Hierarchical</button>
+                        </div>
+                        <div class="btn-group btn-group-sm">
+                            <button class="btn btn-light-pill" onclick="zoomInGraph()"><i class="bi bi-zoom-in"></i></button>
+                            <button class="btn btn-light-pill" onclick="zoomOutGraph()"><i class="bi bi-zoom-out"></i></button>
+                            <button class="btn btn-light-pill" onclick="resetGraphView()"><i class="bi bi-arrows-fullscreen"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cytoscape Canvas with Floating Light Inspector -->
+                <div class="position-relative">
+                    <div id="cy-container"></div>
+                    <div id="graphInspector" class="graph-inspector">
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-hand-index-thumb fs-4 d-block mb-1"></i>
+                            <small>Click any node or relationship link to inspect extracted attributes and forensic references.</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legend -->
+                <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center mt-3 pt-2 border-top small text-muted">
+                    <span><span class="badge" style="background:#2563eb;">&nbsp;</span> Case Root</span>
+                    <span><span class="badge" style="background:#0284c7;">&nbsp;</span> Evidence Files</span>
+                    <span><span class="badge" style="background:#10b981;">&nbsp;</span> UPI ID</span>
+                    <span><span class="badge" style="background:#06b6d4;">&nbsp;</span> Phone</span>
+                    <span><span class="badge" style="background:#8b5cf6;">&nbsp;</span> UTR / Txn</span>
+                    <span><span class="badge" style="background:#f59e0b;">&nbsp;</span> Amount</span>
+                    <span><span class="badge" style="background:#ef4444;">&nbsp;</span> Suspicious Domain</span>
+                    <span><span class="badge" style="background:#ea580c;">&nbsp;</span> Event</span>
+                    <span><i class="bi bi-star-fill text-warning"></i> Golden border = Shared Identifier</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 7: INVESTIGATOR NOTES -->
+        <div class="tab-pane fade" id="tab-notes" role="tabpanel">
+            <div class="row g-3">
+                <div class="col-lg-5">
+                    <div class="card card-clean p-4">
+                        <h6 class="fw-bold text-dark mb-3">Add Forensic Note</h6>
+                        <form method="POST" action="{{ url_for('cases.add_investigator_note', case_id=case['id']) }}">
+                            <div class="mb-3">
+                                <label class="form-label text-dark small">Note Category</label>
+                                <select class="form-select form-select-sm form-select-clean" name="note_type">
+                                    <option value="Observation">Observation</option>
+                                    <option value="Triage Recommendation">Triage Recommendation</option>
+                                    <option value="Bank Liaison Action">Bank Liaison Action</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label text-dark small">Observation</label>
+                                <textarea class="form-control form-control-clean" name="content" rows="4" placeholder="Record verification findings or bank nodal responses..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-orange btn-sm w-100">Save Note</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="card card-clean p-4">
+                        <h6 class="fw-bold text-dark mb-3">Recorded Decisions</h6>
+                        {% if notes %}
+                            {% for n in notes %}
+                            <div class="p-3 bg-light rounded border mb-2">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="badge bg-white text-primary border">{{ n['note_type'] }}</span>
+                                    <small class="text-muted">{{ n['created_at'] | datetime_fmt }}</small>
+                                </div>
+                                <p class="text-dark small mb-1">{{ n['content'] }}</p>
+                                <small class="text-muted">By: <b>{{ n['author_name'] }}</b> ({{ n['badge_number'] or 'Analyst' }})</small>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center text-muted py-4">No notes recorded yet.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 8: AUDIT TRAIL -->
+        <div class="tab-pane fade" id="tab-audit" role="tabpanel">
+            <div class="card card-clean p-0 overflow-hidden">
+                <div class="p-3 border-bottom">
+                    <h6 class="fw-bold text-dark mb-0">Case Chain of Custody Audit Log</h6>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-clean align-middle mb-0 small">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Action Event</th>
+                                <th>Target</th>
+                                <th>Initiated By</th>
+                                <th>IP Address</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for a in audit_records %}
+                            <tr>
+                                <td class="font-monospace text-muted">{{ a['timestamp'] | datetime_fmt }}</td>
+                                <td><span class="badge bg-light text-dark border font-monospace">{{ a['action'] }}</span></td>
+                                <td>{{ a['target_type'] }}: {{ a['target_id'] or '—' }}</td>
+                                <td>{{ a['user_name'] or 'System' }} ({{ a['user_role'] or 'Auto' }})</td>
+                                <td><code>{{ a['ip_address'] }}</code></td>
+                                <td class="font-monospace text-muted text-break">{{ a['details_json'] or '—' }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal: Update Case Status & Priority -->
+<div class="modal fade" id="updateStatusModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content card-clean border-0 shadow">
+            <form method="POST" action="{{ url_for('cases.update_case_status', case_id=case['id']) }}">
+                <div class="modal-header border-bottom">
+                    <h6 class="modal-title fw-bold text-dark">Update Case Status & Priority</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="mb-3">
+                        <label class="form-label text-dark small fw-semibold">Case Status</label>
+                        <select class="form-select form-select-clean" name="status">
+                            {% for st in statuses %}
+                            <option value="{{ st }}" {% if case['status'] == st %}selected{% endif %}>{{ st }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label text-dark small fw-semibold">Priority</label>
+                        <select class="form-select form-select-clean" name="priority">
+                            <option value="High" {% if case['priority'] == 'High' %}selected{% endif %}>High</option>
+                            <option value="Medium" {% if case['priority'] == 'Medium' %}selected{% endif %}>Medium</option>
+                            <option value="Low" {% if case['priority'] == 'Low' %}selected{% endif %}>Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer border-top">
+                    <button type="button" class="btn btn-light-pill btn-sm" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-orange btn-sm">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/graph.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const graphTab = document.getElementById('graph-tab');
+        if (graphTab && graphTab.classList.contains('active')) {
+            initRelationshipGraph({{ case['id'] }});
+        }
+    });
+</script>
+{% endblock %}

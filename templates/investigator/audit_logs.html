@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Audit Trail & Chain of Custody — CyberShield{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-lg-4 py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold text-dark mb-1">
+                System Audit Trail & Chain of Custody
+            </h3>
+            <p class="text-muted small mb-0">
+                Immutable, append-only log recording all digital evidence intake, hash verifications, and user actions.
+            </p>
+        </div>
+        <div>
+            <span class="badge bg-light text-success border p-2 fw-semibold">
+                <i class="bi bi-shield-lock-fill me-1"></i> SHA-256 Custody Tracking Active
+            </span>
+        </div>
+    </div>
+
+    <div class="card card-clean p-0 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-clean align-middle mb-0 small">
+                <thead>
+                    <tr>
+                        <th>Timestamp (UTC)</th>
+                        <th>Action Logged</th>
+                        <th>Case Reference</th>
+                        <th>Target</th>
+                        <th>User / Operator</th>
+                        <th>Client IP</th>
+                        <th>Metadata Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for l in logs %}
+                    <tr>
+                        <td class="font-monospace text-muted text-nowrap">{{ l['timestamp'] | datetime_fmt }}</td>
+                        <td>
+                            <span class="badge 
+                                {% if 'LOGIN' in l['action'] %}bg-primary bg-opacity-10 text-primary border border-primary
+                                {% elif 'EVIDENCE' in l['action'] %}bg-info bg-opacity-10 text-info-emphasis border border-info
+                                {% elif 'INTEGRITY' in l['action'] %}bg-success bg-opacity-10 text-success border border-success
+                                {% elif 'REPORT' in l['action'] %}bg-warning bg-opacity-10 text-warning-emphasis border border-warning
+                                {% elif 'CREATED' in l['action'] %}bg-light text-dark border
+                                {% else %}bg-light text-muted border{% endif %} font-monospace">
+                                {{ l['action'] }}
+                            </span>
+                        </td>
+                        <td>
+                            {% if l['case_ref'] %}
+                            <a href="{{ url_for('cases.track_case', case_ref=l['case_ref']) }}" class="text-primary fw-semibold text-decoration-none font-monospace">
+                                {{ l['case_ref'] }}
+                            </a>
+                            {% else %}
+                            <span class="text-muted">—</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="text-dark">{{ l['target_type'] or 'SYSTEM' }}</span>: 
+                            <span class="text-muted">{{ l['target_id'] or '—' }}</span>
+                        </td>
+                        <td>
+                            <div class="fw-semibold text-dark">{{ l['user_name'] or 'System Agent' }}</div>
+                            <small class="text-muted text-uppercase" style="font-size:0.68rem;">{{ l['user_role'] or 'Automated' }}</small>
+                        </td>
+                        <td><code>{{ l['ip_address'] }}</code></td>
+                        <td class="font-monospace text-muted text-break" style="max-width: 380px;">
+                            {{ l['details_json'] or '—' }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

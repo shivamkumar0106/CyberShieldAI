@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In — CyberShield Evidence Platform</title>
+    <!-- Fonts: Manrope, DM Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    <style>
+        .login-tabs-bar {
+            display: flex;
+            background: var(--bg-alt);
+            padding: 4px;
+            border-radius: var(--radius-pill);
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+        }
+        .login-tab-btn {
+            flex: 1;
+            padding: 8px 16px;
+            border-radius: var(--radius-pill);
+            border: none;
+            background: transparent;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .login-tab-btn.active {
+            background: var(--bg-card);
+            color: var(--orange-primary);
+            box-shadow: var(--shadow-sm);
+        }
+        .otp-demo-banner {
+            background: #fff7ed;
+            border: 1px dashed var(--orange-primary);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            animation: toastSlideIn 0.25s ease-out;
+        }
+        [data-theme="dark"] .otp-demo-banner {
+            background: rgba(234, 88, 12, 0.15);
+        }
+        .otp-digits-code {
+            font-family: var(--font-mono);
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            color: var(--orange-primary);
+        }
+        .phone-input-group {
+            display: flex;
+            gap: 8px;
+        }
+        .phone-prefix {
+            padding: 10px 14px;
+            background: var(--bg-alt);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body class="auth-page-body">
+    <!-- Top Minimal Bar -->
+    <header class="auth-minimal-header">
+        <a href="/" class="brand-wrap">
+            <div class="brand-shield">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div class="brand-meta">
+                <span class="brand-name">CyberShield</span>
+                <span class="brand-tagline">Evidence Platform</span>
+            </div>
+        </a>
+
+        <div class="nav-actions">
+            <button class="nav-control-btn theme-toggle-btn" onclick="CyberShield.toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="nav-control-btn lang-toggle-btn" onclick="CyberShield.toggleLanguage()" title="Switch Language" aria-label="Switch Language">
+                <i class="fa-solid fa-language"></i>
+                <span class="lang-text-badge">EN</span>
+            </button>
+            <a href="/" class="btn btn-outline btn-sm">
+                <i class="fa-solid fa-arrow-left"></i> <span data-i18n="nav_home">Home</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Clean Login Container -->
+    <main class="auth-container">
+        <div class="clean-login-card">
+            <!-- Tabs for Citizen vs Investigator -->
+            <div class="login-tabs-bar">
+                <button type="button" class="login-tab-btn active" id="tabCitizenBtn" onclick="switchLoginRole('citizen')">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Citizen (Phone OTP)</span>
+                </button>
+                <button type="button" class="login-tab-btn" id="tabInvestigatorBtn" onclick="switchLoginRole('investigator')">
+                    <i class="fa-solid fa-user-tie"></i>
+                    <span>Investigator / Police</span>
+                </button>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- SECTION A: CITIZEN MOBILE OTP LOGIN -->
+            <!-- ============================================== -->
+            <div id="citizenLoginSection">
+                <div class="login-header">
+                    <div class="login-badge-icon icon-citizen">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <h1 class="login-title">Citizen Verification</h1>
+                    <p class="login-subtext">Enter your phone number to lodge a complaint or track your case</p>
+                </div>
+
+                <form id="citizenOtpForm" onsubmit="handleCitizenOtpSubmit(event)" class="clean-form">
+                    <div class="form-group">
+                        <label for="citizenPhone" class="form-label">
+                            <i class="fa-solid fa-phone"></i> Mobile Phone Number
+                        </label>
+                        <div class="phone-input-group">
+                            <span class="phone-prefix">+91</span>
+                            <input 
+                                type="tel" 
+                                id="citizenPhone" 
+                                name="phone" 
+                                class="form-input font-mono" 
+                                placeholder="98223 34455" 
+                                maxlength="14" 
+                                required 
+                                oninput="handlePhoneInput(this.value)"
+                                autocomplete="tel"
+                            >
+                        </div>
+                        <span class="text-xs text-muted" style="margin-top: 4px; display: block;">
+                            <i class="fa-solid fa-circle-info text-blue"></i> As you type a 10-digit number, a Demo OTP will instantly generate.
+                        </span>
+                    </div>
+
+                    <!-- Live Demo OTP Notification Banner -->
+                    <div class="otp-demo-banner" id="otpBanner">
+                        <div>
+                            <div class="text-xs text-muted"><i class="fa-regular fa-bell text-orange"></i> Demo OTP Generated:</div>
+                            <div class="otp-digits-code" id="generatedOtpDisplay">4892</div>
+                        </div>
+                        <button type="button" class="btn btn-outline btn-sm" onclick="autoFillOtp()" style="padding: 4px 10px; font-size: 0.76rem;">
+                            <i class="fa-solid fa-arrow-down"></i> Auto-fill
+                        </button>
+                    </div>
+
+                    <div class="form-group" id="otpInputGroup" style="display: none;">
+                        <label for="citizenOtp" class="form-label">
+                            <i class="fa-solid fa-key"></i> 4-Digit One-Time Password (OTP)
+                        </label>
+                        <input 
+                            type="text" 
+                            id="citizenOtp" 
+                            name="otp" 
+                            class="form-input font-mono" 
+                            placeholder="Enter 4-digit OTP" 
+                            maxlength="6"
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-large" id="citizenSubmitBtn">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <span>Verify & Open Report Form</span>
+                    </button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>or 1-click citizen demo</span>
+                </div>
+
+                <!-- Instant 1-Click Citizen Demo Button -->
+                <button type="button" class="demo-card demo-citizen-card" onclick="quickCitizenDemo()" style="width: 100%; cursor: pointer; text-align: left; border: 1px solid var(--border-color);">
+                    <div class="demo-card-icon icon-citizen">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div class="demo-card-info">
+                        <div class="demo-role-tag">CITIZEN DEMO (VICTIM)</div>
+                        <div class="demo-user-name">Aarav Patel</div>
+                        <div class="demo-user-email">+91 98223 34455 (Instant Login)</div>
+                    </div>
+                    <div class="demo-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                </button>
+            </div>
+
+            <!-- ============================================== -->
+            <!-- SECTION B: INVESTIGATOR / POLICE LOGIN -->
+            <!-- ============================================== -->
+            <div id="investigatorLoginSection" style="display: none;">
+                <div class="login-header">
+                    <div class="login-badge-icon icon-investigator">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h1 class="login-title">Officer Sign In</h1>
+                    <p class="login-subtext">Access case workbench, evidence vault and forensics analysis</p>
+                </div>
+
+                <form action="/auth/login" method="POST" class="clean-form" id="investigatorForm">
+                    <div class="form-group">
+                        <label for="identifier" class="form-label">
+                            <i class="fa-regular fa-envelope"></i> Officer Email or Username
+                        </label>
+                        <input 
+                            type="text" 
+                            id="identifier" 
+                            name="identifier" 
+                            class="form-input" 
+                            value="investigator@cybershield.local"
+                            required 
+                            autocomplete="username"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-label-row">
+                            <label for="password" class="form-label">
+                                <i class="fa-solid fa-key"></i> Password
+                            </label>
+                        </div>
+                        <div class="password-input-wrap">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="form-input" 
+                                value="investigator123"
+                                required 
+                                autocomplete="current-password"
+                            >
+                            <button type="button" class="pwd-toggle-btn" onclick="togglePasswordVisibility()" aria-label="Toggle password view">
+                                <i class="fa-regular fa-eye" id="pwdEye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-large">
+                        <span>Sign In to Dashboard</span>
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                    </button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>or 1-click officer demo</span>
+                </div>
+
+                <!-- Instant 1-Click Investigator Demo Button -->
+                <a href="/auth/demo-login/investigator" onclick="setInvestigatorStorage()" class="demo-card demo-investigator-card">
+                    <div class="demo-card-icon icon-investigator">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="demo-card-info">
+                        <div class="demo-role-tag">INVESTIGATOR DEMO</div>
+                        <div class="demo-user-name">Inspector Sharma</div>
+                        <div class="demo-user-email">investigator@cybershield.local</div>
+                    </div>
+                    <div class="demo-arrow">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Bottom Help -->
+            <div class="auth-footer-help">
+                <span class="security-note">
+                    <i class="fa-solid fa-lock text-green"></i> Secure 256-Bit Cryptographic Session
+                </span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script>
+        let currentDemoOtp = "4892";
+
+        function switchLoginRole(role) {
+            const citizenSec = document.getElementById('citizenLoginSection');
+            const invSec = document.getElementById('investigatorLoginSection');
+            const citBtn = document.getElementById('tabCitizenBtn');
+            const invBtn = document.getElementById('tabInvestigatorBtn');
+
+            if (role === 'citizen') {
+                citizenSec.style.display = 'block';
+                invSec.style.display = 'none';
+                citBtn.classList.add('active');
+                invBtn.classList.remove('active');
+            } else {
+                citizenSec.style.display = 'none';
+                invSec.style.display = 'block';
+                citBtn.classList.remove('active');
+                invBtn.classList.add('active');
+            }
+        }
+
+        // As the phone number is entered, auto-generate demo OTP
+        function handlePhoneInput(val) {
+            const cleaned = val.replace(/\D/g, '');
+            if (cleaned.length >= 10) {
+                // Generate a random 4-digit demo OTP
+                currentDemoOtp = Math.floor(1000 + Math.random() * 9000).toString();
+                document.getElementById('generatedOtpDisplay').innerText = currentDemoOtp;
+                document.getElementById('otpBanner').style.display = 'flex';
+                document.getElementById('otpInputGroup').style.display = 'block';
+                CyberShield.showToast(`Demo OTP sent to +91 ${cleaned.slice(-10)}: ${currentDemoOtp}`, 'info');
+            }
+        }
+
+        function autoFillOtp() {
+            const otpInput = document.getElementById('citizenOtp');
+            otpInput.value = currentDemoOtp;
+            CyberShield.showToast(`Auto-filled OTP: ${currentDemoOtp}`, 'success');
+        }
+
+        async function handleCitizenOtpSubmit(e) {
+            e.preventDefault();
+            const phone = document.getElementById('citizenPhone').value.trim();
+            const otp = document.getElementById('citizenOtp').value.trim();
+
+            if (!otp) {
+                // If user didn't enter OTP yet, trigger generation
+                handlePhoneInput(phone || '9822334455');
+                autoFillOtp();
+            }
+
+            try {
+                const res = await fetch('/auth/citizen-otp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: phone || '9822334455',
+                        otp: document.getElementById('citizenOtp').value || currentDemoOtp
+                    })
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    // Save user session in localStorage for immediate client-side persistence
+                    localStorage.setItem('cs_user', JSON.stringify(data.user));
+                    CyberShield.showToast(`Authenticated as Citizen: ${data.user.full_name}`, 'success');
+                    setTimeout(() => {
+                        window.location.href = data.redirect_url || '/pages/report-incident.html';
+                    }, 500);
+                } else {
+                    const err = await res.json();
+                    CyberShield.showToast(err.message || 'OTP verification failed', 'danger');
+                }
+            } catch (err) {
+                // Fallback to standard demo citizen redirect
+                quickCitizenDemo();
+            }
+        }
+
+        async function quickCitizenDemo() {
+            document.getElementById('citizenPhone').value = '9822334455';
+            document.getElementById('otpBanner').style.display = 'flex';
+            document.getElementById('otpInputGroup').style.display = 'block';
+            document.getElementById('citizenOtp').value = '4892';
+
+            const user = {
+                id: 2,
+                full_name: 'Aarav Patel (Citizen)',
+                role: 'citizen',
+                phone: '+91 9822334455'
+            };
+            localStorage.setItem('cs_user', JSON.stringify(user));
+
+            window.location.href = '/auth/demo-login/citizen';
+        }
+
+        function setInvestigatorStorage() {
+            const user = {
+                id: 1,
+                full_name: 'Inspector R. Sharma',
+                role: 'investigator',
+                badge_number: 'CYB-INV-709'
+            };
+            localStorage.setItem('cs_user', JSON.stringify(user));
+        }
+
+        function togglePasswordVisibility() {
+            const pwd = document.getElementById('password');
+            const eye = document.getElementById('pwdEye');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                eye.classList.remove('fa-eye');
+                eye.classList.add('fa-eye-slash');
+            } else {
+                pwd.type = 'password';
+                eye.classList.remove('fa-eye-slash');
+                eye.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

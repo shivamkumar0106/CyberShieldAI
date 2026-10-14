@@ -1,0 +1,13 @@
+Telegram Messenger Chat Export
+Target Group: @GlobalMediaTaskGroup
+Admin: Pooja Sharma (@Pooja_Task_Manager | Mobile: +91 8876543219)
+Victim: Neha Sharma (+91 8877665544)
+
+[05/10/2026 11:20:15] Admin: Welcome to VIP Tier 2 Trading. To unlock 40% payout, transfer investment to growcapital.invest@paytm.
+[05/10/2026 11:35:40] Neha: Sent Rs 12,000 via Paytm UPI. UTR is 884719203948.
+[05/10/2026 12:45:00] Admin: Order requires combo fund deposit of Rs 30,000 to same UPI growcapital.invest@paytm.
+[05/10/2026 13:10:12] Neha: Sent Rs 30,000. UTR is 884719203949. Please process withdrawal.
+[05/10/2026 14:05:22] Admin: Final merchant clearance deposit of Rs 40,000 needed. UTR must be shared within 15 minutes.
+[05/10/2026 14:25:30] Neha: Transferred Rs 40,000. UTR is 884719203950. Total Rs 82,000 invested!
+[05/10/2026 15:00:10] Admin: System error 404: Pay 30% government TDS Rs 50,000 to release Rs 1,80,000 profit.
+[05/10/2026 15:15:00] Neha: I do not have more money! Please refund my principal Rs 82,000.

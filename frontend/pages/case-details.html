@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Details & Investigation Workbench — CyberShield</title>
+    <!-- Fonts: Manrope, DM Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/evidence.css">
+    <link rel="stylesheet" href="/css/analysis.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-shell">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-brand-wrap">
+                <a href="/" class="brand-wrap">
+                    <div class="brand-shield">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="brand-meta">
+                        <span class="brand-name">CyberShield</span>
+                        <span class="brand-tagline">Investigation Suite</span>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">INVESTIGATION</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/pages/dashboard.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="nav_dashboard">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/cases.html" class="sidebar-nav-link active">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <span data-i18n="nav_cases">Cases Directory</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/evidence-vault.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-vault"></i>
+                            <span data-i18n="nav_evidence">Evidence Vault</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/analysis-results.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-microchip"></i>
+                            <span data-i18n="nav_analysis">Analysis Results</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/incident-timeline.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-timeline"></i>
+                            <span data-i18n="nav_timeline">Incident Timeline</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/evidence-graph.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span data-i18n="nav_graph">Evidence Graph</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-section-label">ACTIONS</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/pages/report-incident.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-plus-circle"></i>
+                            <span data-i18n="nav_report">New Intake</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/profile.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-user-circle"></i>
+                            <span>Officer Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="officer-mini-profile">
+                    <div class="officer-avatar">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="officer-info">
+                        <div class="officer-name">Insp. Sharma</div>
+                        <div class="officer-badge font-mono">BADGE #IND-8402</div>
+                    </div>
+                </div>
+                <a href="/auth/logout" class="btn-logout" title="Sign Out">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <div class="dashboard-main-content">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="topbar-left">
+                    <button class="mobile-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb-trail">
+                        <a href="/pages/cases.html" class="breadcrumb-item">Cases</a>
+                        <span class="breadcrumb-separator">/</span>
+                        <span id="breadcrumbCaseId" class="breadcrumb-item font-mono font-bold active">CS-2026-28410</span>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button class="nav-control-btn theme-toggle-btn" onclick="CyberShield.toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <button class="nav-control-btn lang-toggle-btn" onclick="CyberShield.toggleLanguage()" title="Switch Language" aria-label="Switch Language">
+                        <i class="fa-solid fa-language"></i>
+                        <span class="lang-text-badge">EN</span>
+                    </button>
+                    <a id="btnDownloadReport" href="/investigator/case/1/report/download" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-file-pdf"></i> <span>Download PDF Report</span>
+                    </a>
+                </div>
+            </header>
+
+            <main class="dashboard-scroll-area">
+                <!-- Quick Demo Case Switcher -->
+                <div class="demo-case-switcher-bar">
+                    <span class="switcher-label"><i class="fa-solid fa-layer-group"></i> Demo Cases:</span>
+                    <a href="/pages/case-details.html?id=1" class="btn-case-switch active" data-case-id="1">
+                        <span class="status-dot dot-orange"></span> Case 1: Pending Verification
+                    </a>
+                    <a href="/pages/case-details.html?id=2" class="btn-case-switch" data-case-id="2">
+                        <span class="status-dot dot-green"></span> Case 2: Evidence Verified
+                    </a>
+                    <a href="/pages/case-details.html?id=3" class="btn-case-switch" data-case-id="3">
+                        <span class="status-dot dot-blue"></span> Case 3: Already Completed
+                    </a>
+                </div>
+
+                <!-- Case Dossier Header Card -->
+                <div class="case-workbench-header-card">
+                    <div class="header-top-row">
+                        <div id="workbenchCaseId" class="case-id-badge-large font-mono">
+                            <i class="fa-solid fa-shield-cat"></i> CS-2026-28410
+                        </div>
+                        <div class="case-status-badges">
+                            <span id="workbenchStatusBadge" class="status-pill status-under-review"><i class="fa-solid fa-hourglass-half"></i> Pending Verification</span>
+                            <span id="workbenchPriorityBadge" class="priority-pill priority-high">High Priority</span>
+                            <span id="workbenchCategoryBadge" class="category-pill">Financial Fraud</span>
+                        </div>
+                    </div>
+
+                    <h1 id="workbenchCaseTitle" class="workbench-case-title">Telegram VIP Crypto Doubling & Task Scheme Fraud</h1>
+                    <p id="workbenchCaseDesc" class="workbench-case-desc">
+                        Victim was approached via Telegram offering high returns for rating videos and depositing USDT tokens. After initial mock payouts, ₹75,000 was deposited to suspect UPI 'vip_crypto_admin@icici', after which withdrawals were frozen with demand for additional clearance fees. Case is pending investigator verification.
+                    </p>
+
+                    <div class="workbench-meta-grid">
+                        <div class="meta-item">
+                            <span class="meta-label">Complainant:</span>
+                            <span id="workbenchComplainant" class="meta-value font-bold">Sneha Reddy</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Incident Date:</span>
+                            <span id="workbenchIncidentDate" class="meta-value font-mono">07 Oct 2026, 14:30</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Financial Loss:</span>
+                            <span id="workbenchLossAmount" class="meta-value font-mono text-orange font-bold">₹75,000.00</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Suspect UPI:</span>
+                            <span id="workbenchSuspectUpi" class="meta-value font-mono">vip_crypto_admin@icici</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Suspect Contact:</span>
+                            <span id="workbenchSuspectPhone" class="meta-value font-mono">+91 91234 56789</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clean Workbench Navigation Tabs -->
+                <div class="workbench-tabs-bar">
+                    <button class="workbench-tab-btn active" onclick="switchWorkbenchTab('tabEvidence')">
+                        <i class="fa-solid fa-vault"></i> <span id="tabEvidenceCount">Evidence Files (2)</span>
+                    </button>
+                    <button class="workbench-tab-btn" onclick="switchWorkbenchTab('tabExtraction')">
+                        <i class="fa-solid fa-microchip"></i> <span>OCR & Entities</span>
+                    </button>
+                    <button class="workbench-tab-btn" onclick="switchWorkbenchTab('tabFindings')">
+                        <i class="fa-solid fa-scale-balanced"></i> <span id="tabFindingsCount">Cross Verification (2)</span>
+                    </button>
+                    <button class="workbench-tab-btn" onclick="switchWorkbenchTab('tabTimeline')">
+                        <i class="fa-solid fa-timeline"></i> <span>Reconstructed Timeline</span>
+                    </button>
+                </div>
+
+                <!-- Tab 1: Evidence Files -->
+                <div class="workbench-tab-content active" id="tabEvidence">
+                    <div class="evidence-grid" id="evidenceGridContainer">
+                        <!-- Dynamically populated by case-details.js -->
+                    </div>
+                </div>
+
+                <!-- Tab 2: Extraction -->
+                <div class="workbench-tab-content" id="tabExtraction">
+                    <div id="entitiesContainer">
+                        <!-- Dynamically populated by case-details.js -->
+                    </div>
+                </div>
+
+                <!-- Tab 3: Findings -->
+                <div class="workbench-tab-content" id="tabFindings">
+                    <div id="findingsContainer">
+                        <!-- Dynamically populated by case-details.js -->
+                    </div>
+                </div>
+
+                <!-- Tab 4: Timeline -->
+                <div class="workbench-tab-content" id="tabTimeline">
+                    <div id="timelineContainer">
+                        <!-- Dynamically populated by case-details.js -->
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/case-details.js"></script>
+    <script>
+        function switchWorkbenchTab(tabId) {
+            document.querySelectorAll('.workbench-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.workbench-tab-content').forEach(c => c.classList.remove('active'));
+            
+            if (window.event && window.event.currentTarget) {
+                window.event.currentTarget.classList.add('active');
+            }
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

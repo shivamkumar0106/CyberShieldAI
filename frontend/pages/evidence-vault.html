@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence Vault — CyberShield</title>
+    <!-- Fonts: Manrope, DM Sans, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/evidence.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body class="dashboard-body">
+    <div class="dashboard-shell">
+        <!-- Sidebar Navigation -->
+        <aside class="dashboard-sidebar">
+            <div class="sidebar-brand-wrap">
+                <a href="/" class="brand-wrap">
+                    <div class="brand-shield">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div class="brand-meta">
+                        <span class="brand-name">CyberShield</span>
+                        <span class="brand-tagline">Investigation Suite</span>
+                    </div>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">INVESTIGATION</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/pages/dashboard.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-chart-pie"></i>
+                            <span data-i18n="nav_dashboard">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/cases.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <span data-i18n="nav_cases">Cases Directory</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/evidence-vault.html" class="sidebar-nav-link active">
+                            <i class="fa-solid fa-vault"></i>
+                            <span data-i18n="nav_evidence">Evidence Vault</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/analysis-results.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-microchip"></i>
+                            <span data-i18n="nav_analysis">Analysis Results</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/incident-timeline.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-timeline"></i>
+                            <span data-i18n="nav_timeline">Incident Timeline</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/evidence-graph.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span data-i18n="nav_graph">Evidence Graph</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="nav-section-label">ACTIONS</div>
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/pages/report-incident.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-plus-circle"></i>
+                            <span data-i18n="nav_report">New Intake</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/pages/profile.html" class="sidebar-nav-link">
+                            <i class="fa-solid fa-user-circle"></i>
+                            <span>Officer Profile</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="officer-mini-profile">
+                    <div class="officer-avatar">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <div class="officer-info">
+                        <div class="officer-name">Insp. Sharma</div>
+                        <div class="officer-badge font-mono">BADGE #IND-8402</div>
+                    </div>
+                </div>
+                <a href="/auth/logout" class="btn-logout" title="Sign Out">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <div class="dashboard-main-content">
+            <!-- Topbar -->
+            <header class="dashboard-topbar">
+                <div class="topbar-left">
+                    <button class="mobile-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle Navigation">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb-trail">
+                        <a href="/pages/dashboard.html" class="breadcrumb-item">CyberShield</a>
+                        <span class="breadcrumb-separator">/</span>
+                        <span class="breadcrumb-item active" data-i18n="nav_evidence">Evidence Vault</span>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <button class="nav-control-btn theme-toggle-btn" onclick="CyberShield.toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <button class="nav-control-btn lang-toggle-btn" onclick="CyberShield.toggleLanguage()" title="Switch Language" aria-label="Switch Language">
+                        <i class="fa-solid fa-language"></i>
+                        <span class="lang-text-badge">EN</span>
+                    </button>
+                    <a href="/pages/report-incident.html" class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-upload"></i> <span>Upload Evidence</span>
+                    </a>
+                </div>
+            </header>
+
+            <main class="dashboard-scroll-area">
+                <!-- Page Title -->
+                <div class="workspace-page-header">
+                    <div>
+                        <h1 class="page-main-title">Digital Evidence Vault & Hash Repository</h1>
+                        <p class="page-main-subtext">Immutable evidentiary file records secured with cryptographic SHA-256 fingerprints to ensure evidentiary chain of custody.</p>
+                    </div>
+                    <div class="header-count-badge">
+                        <i class="fa-solid fa-shield-halved text-green"></i> 100% Cryptographically Verified
+                    </div>
+                </div>
+
+                <!-- Search & Filter Bar -->
+                <div class="filter-toolbar-card">
+                    <div class="toolbar-search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="vaultSearchInput" placeholder="Filter by filename, case ID (CS-2026-...), or SHA-256 checksum prefix...">
+                    </div>
+                </div>
+
+                <!-- Evidence Card Grid -->
+                <div class="evidence-grid" id="evidenceGrid">
+                    <!-- Populated dynamically by evidence.js -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/main.js"></script>
+    <script src="/js/navigation.js"></script>
+    <script src="/js/evidence.js"></script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+
+{% block title %}CyberShield — Turning Digital Evidence into Real Justice{% endblock %}
+
+{% block content %}
+<!-- Hero Section matching Reference Design -->
+<section class="hero-section">
+    <div class="container px-lg-4">
+        <div class="row align-items-center gy-5">
+            <!-- Left Column: Copy & Actions -->
+            <div class="col-lg-6">
+                <!-- Pill Badge -->
+                <div class="hero-pill-badge">
+                    <i class="bi bi-shield-check"></i>
+                    <span data-i18n="hero_pill">CYBERCRIME INVESTIGATION SUPPORT PLATFORM</span>
+                </div>
+
+                <!-- Main Bold Headline -->
+                <h1 class="hero-heading">
+                    <span data-i18n="hero_title_1">Turning Digital Evidence into</span> 
+                    <span class="text-orange" data-i18n="hero_title_2">Real Justice</span>
+                </h1>
+
+                <!-- Crisp Strong Subhead -->
+                <p class="hero-subhead" data-i18n="hero_desc">
+                    CyberShield helps citizens report cybercrimes and assists investigators in collecting, analyzing and visualizing digital evidence from images, documents and metadata — faster, smarter and more securely.
+                </p>
+
+                <!-- Action Buttons -->
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{{ url_for('cases.submit_complaint') }}" class="btn btn-orange btn-lg px-4 d-inline-flex align-items-center gap-2">
+                        <span data-i18n="hero_btn_report">Report an Incident</span> &rarr;
+                    </a>
+                    <a href="{{ url_for('auth.demo_login', role='investigator') }}" class="btn btn-light-pill btn-lg px-4 d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-play-circle text-primary"></i>
+                        <span data-i18n="hero_btn_demo">Watch Demo</span>
+                    </a>
+                </div>
+
+                <!-- Value Proposition Pills -->
+                <div class="val-props-row">
+                    <div class="val-prop-item">
+                        <i class="bi bi-shield-lock text-primary"></i> <span data-i18n="val_secure">Secure</span>
+                    </div>
+                    <div class="val-prop-item">
+                        <i class="bi bi-lightning-charge text-warning"></i> <span data-i18n="val_efficient">Efficient</span>
+                    </div>
+                    <div class="val-prop-item">
+                        <i class="bi bi-people text-info"></i> <span data-i18n="val_friendly">Citizen Friendly</span>
+                    </div>
+                    <div class="val-prop-item">
+                        <i class="bi bi-bar-chart text-success"></i> <span data-i18n="val_support">Investigation Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Sleek Laptop Dashboard Mockup -->
+            <div class="col-lg-6">
+                <div class="laptop-preview-container">
+                    <div class="laptop-frame">
+                        <div class="laptop-camera-notch"></div>
+                        <div class="laptop-screen">
+                            <!-- Mockup Sidebar -->
+                            <div class="mockup-sidebar">
+                                <div class="d-flex align-items-center gap-2 mb-2 pb-2 border-bottom border-secondary border-opacity-25">
+                                    <i class="bi bi-shield-check text-warning"></i>
+                                    <span class="fw-bold text-white" style="font-size:0.75rem;">CyberShield</span>
+                                </div>
+                                <div class="mockup-sidebar-item active">
+                                    <i class="bi bi-grid-fill"></i> Dashboard
+                                </div>
+                                <div class="mockup-sidebar-item">
+                                    <i class="bi bi-folder2"></i> Cases
+                                </div>
+                                <div class="mockup-sidebar-item">
+                                    <i class="bi bi-file-earmark-lock2"></i> Evidence
+                                </div>
+                                <div class="mockup-sidebar-item">
+                                    <i class="bi bi-cpu"></i> Analysis
+                                </div>
+                                <div class="mockup-sidebar-item">
+                                    <i class="bi bi-clock-history"></i> Timeline
+                                </div>
+                                <div class="mockup-sidebar-item">
+                                    <i class="bi bi-diagram-3"></i> Graph
+                                </div>
+                                <div class="mockup-sidebar-item">
+                                    <i class="bi bi-file-earmark-pdf"></i> Reports
+                                </div>
+                            </div>
+
+                            <!-- Mockup Main Workspace -->
+                            <div class="mockup-main">
+                                <!-- Top Bar -->
+                                <div class="d-flex justify-content-between align-items-center bg-white p-2 rounded border border-light">
+                                    <span class="text-muted fw-medium"><i class="bi bi-search me-1"></i> Search cases, evidence...</span>
+                                    <div class="d-flex align-items-center gap-1 text-muted">
+                                        <i class="bi bi-bell"></i>
+                                        <span class="badge bg-light text-dark border">Investigator</span>
+                                    </div>
+                                </div>
+
+                                <!-- Mini Dashboard Stats Row -->
+                                <div class="row g-1">
+                                    <div class="col-3">
+                                        <div class="mockup-kpi-card text-center">
+                                            <div class="text-primary fw-bold fs-6">1,248</div>
+                                            <div class="text-muted" style="font-size:0.6rem;">Total Cases</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mockup-kpi-card text-center">
+                                            <div class="text-warning fw-bold fs-6">342</div>
+                                            <div class="text-muted" style="font-size:0.6rem;">Under Analysis</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mockup-kpi-card text-center">
+                                            <div class="text-success fw-bold fs-6">786</div>
+                                            <div class="text-muted" style="font-size:0.6rem;">Closed Cases</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mockup-kpi-card text-center">
+                                            <div class="text-danger fw-bold fs-6">120</div>
+                                            <div class="text-muted" style="font-size:0.6rem;">High Priority</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Split: Table & Evidence Types -->
+                                <div class="row g-1 flex-grow-1">
+                                    <div class="col-7">
+                                        <div class="bg-white p-2 rounded border h-100">
+                                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                                <span class="fw-bold text-dark" style="font-size:0.7rem;">Recent Cases</span>
+                                                <span class="text-primary" style="font-size:0.65rem;">View All &rarr;</span>
+                                            </div>
+                                            <table class="table table-sm table-borderless mb-0" style="font-size:0.62rem;">
+                                                <tr class="text-muted border-bottom">
+                                                    <th>Case ID</th>
+                                                    <th>Category</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-monospace text-primary fw-bold">CS-2026-10492</td>
+                                                    <td>Online Fraud</td>
+                                                    <td><span class="badge bg-primary bg-opacity-10 text-primary py-0">Verified</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-monospace text-primary fw-bold">CS-2026-21804</td>
+                                                    <td>Telegram Scam</td>
+                                                    <td><span class="badge bg-warning bg-opacity-25 text-warning-emphasis py-0">Review</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="font-monospace text-primary fw-bold">CS-2026-34710</td>
+                                                    <td>Phishing KYC</td>
+                                                    <td><span class="badge bg-info bg-opacity-10 text-info py-0">New</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="bg-white p-2 rounded border h-100 text-center d-flex flex-column justify-content-center">
+                                            <span class="fw-bold text-dark mb-1" style="font-size:0.68rem;">Evidence Types</span>
+                                            <div class="d-flex align-items-center justify-content-center gap-1 my-1">
+                                                <span class="badge rounded-pill bg-primary" style="font-size:0.58rem;">Images 42%</span>
+                                                <span class="badge rounded-pill bg-danger" style="font-size:0.58rem;">PDF 28%</span>
+                                                <span class="badge rounded-pill bg-success" style="font-size:0.58rem;">Text 16%</span>
+                                            </div>
+                                            <span class="fw-bold text-dark fs-6">1,024</span>
+                                            <span class="text-muted" style="font-size:0.58rem;">Files Processed</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="laptop-base"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4 Core Feature Cards (Matching Reference Image) -->
+<section id="features" class="py-5 bg-white border-top border-bottom">
+    <div class="container px-lg-4">
+        <div class="row g-4">
+            <!-- Feature 1: Blue -->
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card feature-card-blue">
+                    <div class="feature-icon-squircle">
+                        <i class="bi bi-file-earmark-text-fill"></i>
+                    </div>
+                    <h5 class="feature-title" data-i18n="feat_1_title">Report & Upload Evidence</h5>
+                    <p class="feature-desc" data-i18n="feat_1_desc">Submit cybercrime complaints with images, documents and details.</p>
+                    <a href="{{ url_for('cases.submit_complaint') }}" class="feature-action-btn">
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Feature 2: Green -->
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card feature-card-green">
+                    <div class="feature-icon-squircle">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <h5 class="feature-title" data-i18n="feat_2_title">Automatic Evidence Analysis</h5>
+                    <p class="feature-desc" data-i18n="feat_2_desc">Extract text, metadata and key information using OCR and NLP.</p>
+                    <a href="{{ url_for('cases.investigator_dashboard') }}" class="feature-action-btn">
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Feature 3: Purple -->
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card feature-card-purple">
+                    <div class="feature-icon-squircle">
+                        <i class="bi bi-diagram-3-fill"></i>
+                    </div>
+                    <h5 class="feature-title" data-i18n="feat_3_title">Visualize Connections</h5>
+                    <p class="feature-desc" data-i18n="feat_3_desc">Interactive timelines and relationship graphs to uncover important links.</p>
+                    <a href="{{ url_for('cases.investigator_dashboard') }}" class="feature-action-btn">
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Feature 4: Orange -->
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card feature-card-orange">
+                    <div class="feature-icon-squircle">
+                        <i class="bi bi-shield-fill-check"></i>
+                    </div>
+                    <h5 class="feature-title" data-i18n="feat_4_title">Support Investigations</h5>
+                    <p class="feature-desc" data-i18n="feat_4_desc">Organized evidence, consistency checks and downloadable reports for investigators.</p>
+                    <a href="{{ url_for('cases.investigator_dashboard') }}" class="feature-action-btn">
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Strip Row (From Reference Image) -->
+        <div class="stats-strip-container mt-5">
+            <div class="row g-3 text-center text-md-start">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item justify-content-center justify-content-md-start">
+                        <div class="stat-icon-wrap bg-primary bg-opacity-10 text-primary">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number">1,200+</div>
+                            <div class="stat-label" data-i18n="stat_cases">Cases Reported</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item justify-content-center justify-content-md-start">
+                        <div class="stat-icon-wrap bg-success bg-opacity-10 text-success">
+                            <i class="bi bi-file-earmark-check-fill"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number">10,000+</div>
+                            <div class="stat-label" data-i18n="stat_files">Evidence Files Processed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item justify-content-center justify-content-md-start">
+                        <div class="stat-icon-wrap bg-warning bg-opacity-10 text-warning">
+                            <i class="bi bi-shield-shaded"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number">500+</div>
+                            <div class="stat-label" data-i18n="stat_inv">Investigators (Demo)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item justify-content-center justify-content-md-start">
+                        <div class="stat-icon-wrap bg-purple bg-opacity-10 text-purple" style="background:#faf5ff; color:#9333ea;">
+                            <i class="bi bi-bullseye"></i>
+                        </div>
+                        <div>
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label" data-i18n="stat_acc">Processing Accuracy (Demo)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How CyberShield Works Section (From Reference Image) -->
+<section id="how-it-works" class="how-section">
+    <div class="container px-lg-4">
+        <div class="text-center mb-5">
+            <h3 class="fw-bold text-dark" data-i18n="how_title">How CyberShield Works</h3>
+            <div style="width: 48px; height: 3px; background: var(--brand-orange); margin: 8px auto 0 auto; border-radius: 2px;"></div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Step 1 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="how-step-item">
+                    <div class="how-step-badge">1</div>
+                    <div class="how-step-icon">
+                        <i class="bi bi-file-earmark-arrow-up"></i>
+                    </div>
+                    <div>
+                        <h6 class="how-step-title" data-i18n="step_1_title">Report Incident</h6>
+                        <p class="how-step-desc" data-i18n="step_1_desc">Provide details and upload your available digital evidence.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="how-step-item">
+                    <div class="how-step-badge">2</div>
+                    <div class="how-step-icon text-success" style="background:#f0fdf4; color:#16a34a;">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <div>
+                        <h6 class="how-step-title" data-i18n="step_2_title">Analyze Evidence</h6>
+                        <p class="how-step-desc" data-i18n="step_2_desc">Extract text, metadata and key entities automatically.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="how-step-item">
+                    <div class="how-step-badge">3</div>
+                    <div class="how-step-icon text-purple" style="background:#faf5ff; color:#9333ea;">
+                        <i class="bi bi-bar-chart-steps"></i>
+                    </div>
+                    <div>
+                        <h6 class="how-step-title" data-i18n="step_3_title">View Insights</h6>
+                        <p class="how-step-desc" data-i18n="step_3_desc">Timelines, relationship graphs and consistency checks.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="how-step-item">
+                    <div class="how-step-badge">4</div>
+                    <div class="how-step-icon text-warning" style="background:#fff7ed; color:#ea580c;">
+                        <i class="bi bi-file-earmark-pdf"></i>
+                    </div>
+                    <div>
+                        <h6 class="how-step-title" data-i18n="step_4_title">Generate Report</h6>
+                        <p class="how-step-desc" data-i18n="step_4_desc">Download a structured investigation summary dossier.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Concise Boundary Advisory Card -->
+<section class="py-4 bg-light border-top">
+    <div class="container px-lg-4">
+        <div class="card card-clean p-3 border-0 bg-white">
+            <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-info-circle-fill fs-4 text-warning flex-shrink-0"></i>
+                <div class="small">
+                    <b class="text-dark" data-i18n="notice_title">Investigation Support Scope:</b> 
+                    <span class="text-muted" data-i18n="notice_desc">CyberShield assists human investigators. It does not replace police FIRs, official police reporting portals, or statutory digital forensics labs.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

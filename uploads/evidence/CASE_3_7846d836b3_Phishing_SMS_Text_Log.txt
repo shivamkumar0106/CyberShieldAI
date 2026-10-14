@@ -1,0 +1,13 @@
+Extracted SMS Header and Message Content
+Sender ID: AD-SBIKYC
+Timestamp: 09/10/2026 09:42:15 AM
+Destination: +91 7766554433 (Rajesh Kumar)
+
+Message:
+"Dear SBI Customer, your YONO Netbanking is locked due to pending KYC mandate. 
+Click http://sbi-kyc-verify-portal.xyz to update PAN & Aadhaar immediately. 
+Helpline: +91 7012345678. - SBI Support Team"
+
+Debit Alert Received Shortly After:
+"Rs 1,15,000.00 debited from A/c XX4091 on 09-10-26 10:15:22 via IMPS Ref IMPS617283940192.
+Beneficiary: QuickPay Tech. Balance: Rs 4,200.00"

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Report Cybercrime Incident — CyberShield{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card card-clean p-4 p-md-5">
+                <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-4">
+                    <div>
+                        <h4 class="fw-bold text-dark mb-1">
+                            <i class="bi bi-shield-plus text-primary me-2"></i>Report Cybercrime Incident
+                        </h4>
+                        <p class="text-muted small mb-0">Record incident details and preserve digital evidence with SHA-256 integrity.</p>
+                    </div>
+                    <span class="badge rounded-pill bg-light text-primary border px-3 py-2 fw-semibold">
+                        Step 1: Evidence Intake
+                    </span>
+                </div>
+
+                <!-- Brief Notice -->
+                <div class="alert alert-light border d-flex align-items-center gap-2 mb-4 py-2">
+                    <i class="bi bi-info-circle text-primary fs-5"></i>
+                    <small class="text-muted">CyberShield organizes and verifies evidence for your investigation. It does not replace official police FIR reporting.</small>
+                </div>
+
+                <form method="POST" action="{{ url_for('cases.submit_complaint') }}" enctype="multipart/form-data">
+                    <!-- SECTION 1: Categorization -->
+                    <div class="mb-4">
+                        <h6 class="text-dark fw-bold mb-3">1. Incident Category & Date</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="category" class="form-label text-dark small fw-semibold">Crime Category <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-clean" id="category" name="category" required>
+                                    <option value="" disabled selected>Select category...</option>
+                                    {% for cat in categories %}
+                                    <option value="{{ cat }}">{{ cat }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="incident_date" class="form-label text-dark small fw-semibold">Incident Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control form-control-clean" id="incident_date" name="incident_date" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 2: Incident Details -->
+                    <div class="mb-4">
+                        <h6 class="text-dark fw-bold mb-3">2. Incident Details & Financial Loss</h6>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="title" class="form-label text-dark small fw-semibold">Incident Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-clean" id="title" name="title" placeholder="e.g. Fraudulent QR Code Scan on OLX" required>
+                            </div>
+                            <div class="col-12">
+                                <label for="description" class="form-label text-dark small fw-semibold">Incident Narrative <span class="text-danger">*</span></label>
+                                <textarea class="form-control form-control-clean" id="description" name="description" rows="3" placeholder="Briefly describe what happened, what was promised, and what action occurred..." required></textarea>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="loss_amount" class="form-label text-dark small fw-semibold">Financial Loss (₹ INR)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border text-muted">₹</span>
+                                    <input type="number" step="0.01" class="form-control form-control-clean" id="loss_amount" name="loss_amount" placeholder="45000.00" value="0.00">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="suspect_platform" class="form-label text-dark small fw-semibold">Platform Used</label>
+                                <input type="text" class="form-control form-control-clean" id="suspect_platform" name="suspect_platform" placeholder="e.g. WhatsApp, Telegram, OLX, Phone Call">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 3: Suspect Details -->
+                    <div class="mb-4">
+                        <h6 class="text-dark fw-bold mb-3">3. Known Suspect Identifiers (Optional)</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="suspect_phone" class="form-label text-dark small fw-semibold">Suspect Phone</label>
+                                <input type="text" class="form-control form-control-clean" id="suspect_phone" name="suspect_phone" placeholder="+91 9823145670">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="suspect_upi" class="form-label text-dark small fw-semibold">Suspect UPI ID</label>
+                                <input type="text" class="form-control form-control-clean" id="suspect_upi" name="suspect_upi" placeholder="merchant@okaxis">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="suspect_email" class="form-label text-dark small fw-semibold">Suspect Email</label>
+                                <input type="email" class="form-control form-control-clean" id="suspect_email" name="suspect_email" placeholder="scam@domain.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SECTION 4: Digital Evidence Upload -->
+                    <div class="mb-4">
+                        <h6 class="text-dark fw-bold mb-3">4. Upload Evidence Artifacts</h6>
+                        <div class="p-3 bg-light rounded-3 border">
+                            <input class="form-control form-control-clean bg-white mb-2" type="file" id="evidence_files" name="evidence_files" multiple accept=".jpg,.jpeg,.png,.pdf,.txt">
+                            <div class="d-flex justify-content-between text-muted" style="font-size: 0.78rem;">
+                                <span><i class="bi bi-file-earmark-check text-success me-1"></i> Formats: <b>JPG, PNG, PDF, TXT</b></span>
+                                <span><i class="bi bi-shield-check text-primary me-1"></i> Instant SHA-256 Hash Generated</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Affirmation -->
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="affirmation" required>
+                        <label class="form-check-label text-muted small" for="affirmation">
+                            I affirm that the provided information and evidence files are genuine records in my possession.
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-flex justify-content-end gap-2 border-top pt-3">
+                        <a href="{{ url_for('index') }}" class="btn btn-light-pill">Cancel</a>
+                        <button type="submit" class="btn btn-orange px-4 fw-semibold">
+                            Submit Complaint &rarr;
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

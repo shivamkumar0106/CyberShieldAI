@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield — Cybercrime Investigation Support Platform</title>
+    <!-- Fonts: Manrope (Headings), DM Sans (Body), JetBrains Mono (Tech/IDs) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/components.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+    <!-- Site Navigation Header -->
+    <header class="site-header">
+        <div class="navbar-container">
+            <a href="/" class="brand-wrap">
+                <div class="brand-shield">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="brand-meta">
+                    <span class="brand-name">CyberShield</span>
+                    <span class="brand-tagline">Evidence Platform</span>
+                </div>
+            </a>
+
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="/" class="nav-link-item active" data-i18n="nav_home">Home</a></li>
+                    <li><a href="#features" class="nav-link-item" data-i18n="nav_features">Features</a></li>
+                    <li><a href="#how-it-works" class="nav-link-item" data-i18n="nav_how_it_works">How It Works</a></li>
+                    <li><a href="/pages/cases.html" class="nav-link-item" data-i18n="nav_cases">Cases</a></li>
+                    <li><a href="/pages/dashboard.html" class="nav-link-item" data-i18n="nav_dashboard">Dashboard</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-actions">
+                <!-- Theme Switcher -->
+                <button class="nav-control-btn theme-toggle-btn" onclick="CyberShield.toggleTheme()" title="Toggle Light / Dark mode" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Language Switcher (English / Hindi) -->
+                <button class="nav-control-btn lang-toggle-btn" onclick="CyberShield.toggleLanguage()" title="Switch Language / भाषा बदलें" aria-label="Switch Language">
+                    <i class="fa-solid fa-language"></i>
+                    <span class="lang-text-badge">EN</span>
+                </button>
+
+                <a href="/pages/report-incident.html" class="btn btn-outline" data-i18n="nav_report">Report Incident</a>
+                <a href="/pages/login.html" class="btn btn-primary" data-i18n="nav_login">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <!-- Left Hero Content -->
+            <div class="hero-text-col">
+                <div class="hero-pill-badge">
+                    <i class="fa-solid fa-shield-cat"></i> <span data-i18n="hero_pill">CYBERCRIME INVESTIGATION SUPPORT PLATFORM</span>
+                </div>
+
+                <h1 class="hero-headline">
+                    <span data-i18n="hero_title_1">Turning Digital Evidence into</span><br>
+                    <span class="text-orange" data-i18n="hero_title_2">Real Justice</span>
+                </h1>
+
+                <p class="hero-subhead" data-i18n="hero_desc">
+                    CyberShield helps citizens report cybercrimes and assists investigators in collecting, analyzing and visualizing digital evidence from images, documents and metadata — faster, smarter and more securely.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/pages/report-incident.html" class="btn btn-primary">
+                        <span data-i18n="hero_btn_report">Report an Incident</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="/track" class="btn btn-outline">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <span data-i18n="hero_btn_track">Track Report</span>
+                    </a>
+                </div>
+
+                <div class="val-props-row">
+                    <div class="val-prop">
+                        <i class="fa-solid fa-circle-check text-green"></i>
+                        <span data-i18n="val_secure">Secure</span>
+                    </div>
+                    <div class="val-prop">
+                        <i class="fa-solid fa-circle-check text-green"></i>
+                        <span data-i18n="val_efficient">Efficient</span>
+                    </div>
+                    <div class="val-prop">
+                        <i class="fa-solid fa-circle-check text-green"></i>
+                        <span data-i18n="val_friendly">Citizen Friendly</span>
+                    </div>
+                    <div class="val-prop">
+                        <i class="fa-solid fa-circle-check text-green"></i>
+                        <span data-i18n="val_support">Investigation Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Hero Orbit Radar Visual (Matches reference image) -->
+            <div class="hero-visual-wrap">
+                <div class="orbit-grid-canvas">
+                    <!-- Concentric Radar Rings -->
+                    <div class="radar-ring ring-outer"></div>
+                    <div class="radar-ring ring-mid"></div>
+
+                    <!-- Center Hub -->
+                    <div class="center-hub">
+                        <div class="center-hub-shield">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="center-hub-title" data-i18n="visual_hub_title">Digital Evidence</div>
+                        <div class="center-hub-sub" data-i18n="visual_hub_sub">COLLECT · VERIFY · CONNECT</div>
+                    </div>
+
+                    <!-- Orbiting Badge 1: Phishing Message (Top Left) -->
+                    <div class="orbit-card orbit-phishing">
+                        <div class="card-icon-danger">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <div class="orbit-card-text">
+                            <div class="orbit-title" data-i18n="visual_phishing_title">Phishing message</div>
+                            <div class="orbit-sub" data-i18n="visual_phishing_sub">Suspicious link detected</div>
+                        </div>
+                    </div>
+
+                    <!-- Orbiting Badge 2: Event Timeline (Top Right Pill) -->
+                    <div class="orbit-card orbit-timeline-pill">
+                        <i class="fa-solid fa-clock text-blue"></i>
+                        <span class="orbit-title" data-i18n="visual_pill_timeline">Event timeline</span>
+                    </div>
+
+                    <!-- Orbiting Badge 3: Evidence Document (Middle Right) -->
+                    <div class="orbit-card orbit-document">
+                        <div class="card-icon-blue">
+                            <i class="fa-solid fa-file-invoice"></i>
+                        </div>
+                        <div class="orbit-card-text">
+                            <div class="orbit-title" data-i18n="visual_doc_title">Evidence document</div>
+                            <div class="orbit-sub" data-i18n="visual_doc_sub">Text extraction available</div>
+                        </div>
+                    </div>
+
+                    <!-- Orbiting Badge 4: Related Identifier (Bottom Right) -->
+                    <div class="orbit-card orbit-identifier">
+                        <div class="card-icon-purple">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <div class="orbit-card-text">
+                            <div class="orbit-title" data-i18n="visual_rel_title">Related identifier</div>
+                            <div class="orbit-sub" data-i18n="visual_rel_sub">Potential connection found</div>
+                        </div>
+                    </div>
+
+                    <!-- Orbiting Badge 5: Evidence Integrity (Bottom Left Pill) -->
+                    <div class="orbit-card orbit-integrity-pill">
+                        <i class="fa-solid fa-lock text-green"></i>
+                        <span class="orbit-title" data-i18n="visual_pill_integrity">Evidence integrity</span>
+                    </div>
+
+                    <!-- Orbiting Badge 6: Image Metadata (Mid-Left) -->
+                    <div class="orbit-card orbit-metadata">
+                        <div class="card-icon-orange">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <div class="orbit-card-text">
+                            <div class="orbit-title" data-i18n="visual_meta_title">Image metadata</div>
+                            <div class="orbit-sub" data-i18n="visual_meta_sub">Timestamp and properties</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4 Feature Cards Section -->
+    <section class="section-container" id="features">
+        <div class="section-header-wrap">
+            <h2 class="section-heading" data-i18n="nav_features">Key Capabilities</h2>
+            <p class="section-subtext" data-i18n="how_sub">A clear workflow from complaint intake to structured investigation support.</p>
+        </div>
+
+        <div class="features-grid-4">
+            <!-- Feature 1 -->
+            <div class="feature-card">
+                <div class="feature-icon-wrap icon-bg-orange">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <h3 class="feature-card-title" data-i18n="feat_1_title">Report & Upload Evidence</h3>
+                <p class="feature-card-desc" data-i18n="feat_1_desc">Submit cybercrime complaints with images, documents and details.</p>
+                <a href="/pages/report-incident.html" class="feature-card-link">
+                    <span>Lodge complaint</span> <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card">
+                <div class="feature-icon-wrap icon-bg-blue">
+                    <i class="fa-solid fa-microchip"></i>
+                </div>
+                <h3 class="feature-card-title" data-i18n="feat_2_title">Automatic Evidence Analysis</h3>
+                <p class="feature-card-desc" data-i18n="feat_2_desc">Extract text, metadata and key information using OCR and NLP.</p>
+                <a href="/pages/analysis-results.html" class="feature-card-link">
+                    <span>View extraction</span> <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card">
+                <div class="feature-icon-wrap icon-bg-purple">
+                    <i class="fa-solid fa-circle-nodes"></i>
+                </div>
+                <h3 class="feature-card-title" data-i18n="feat_3_title">Visualize Connections</h3>
+                <p class="feature-card-desc" data-i18n="feat_3_desc">Interactive timelines and relationship graphs to uncover important links.</p>
+                <a href="/pages/evidence-graph.html" class="feature-card-link">
+                    <span>Explore graph</span> <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card">
+                <div class="feature-icon-wrap icon-bg-green">
+                    <i class="fa-solid fa-file-shield"></i>
+                </div>
+                <h3 class="feature-card-title" data-i18n="feat_4_title">Support Investigations</h3>
+                <p class="feature-card-desc" data-i18n="feat_4_desc">Organized evidence, consistency checks and downloadable reports for investigators.</p>
+                <a href="/pages/dashboard.html" class="feature-card-link">
+                    <span>Workbench</span> <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3 Stats Strip Section (Live Forensics Telemetry) -->
+    <section class="stats-strip-section" id="stats-section">
+        <div class="stats-header-row">
+            <div class="stats-live-pill">
+                <span class="pulse-dot"></span>
+                <span>Live Forensics Telemetry</span>
+            </div>
+        </div>
+        <div class="stats-strip-container">
+            <div class="stat-box">
+                <div class="stat-number animated-counter" id="statCasesReported" data-target="550" data-suffix="+">550+</div>
+                <div class="stat-label" data-i18n="stat_cases_label">Cases Reported</div>
+            </div>
+            <div class="stat-box-divider"></div>
+            <div class="stat-box">
+                <div class="stat-number animated-counter" id="statInProgress" data-target="156" data-suffix="">156</div>
+                <div class="stat-label" data-i18n="stat_progress_label">In Progress</div>
+            </div>
+            <div class="stat-box-divider"></div>
+            <div class="stat-box">
+                <div class="stat-number animated-counter" id="statCasesSolved" data-target="360" data-suffix="">360</div>
+                <div class="stat-label" data-i18n="stat_solved_label">Cases Solved</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How CyberShield Works Section -->
+    <section class="section-container" id="how-it-works">
+        <div class="section-header-wrap">
+            <h2 class="section-heading" data-i18n="how_title">How CyberShield Works</h2>
+            <p class="section-subtext" data-i18n="how_sub">A clear workflow from complaint intake to structured investigation support.</p>
+        </div>
+
+        <div class="workflow-steps-grid">
+            <div class="workflow-step-card">
+                <div class="step-badge">1</div>
+                <div class="step-icon"><i class="fa-solid fa-file-pen"></i></div>
+                <h4 class="step-card-title" data-i18n="step_1_title">Report Incident</h4>
+                <p class="step-card-desc" data-i18n="step_1_desc">Provide details and upload your available evidence.</p>
+            </div>
+
+            <div class="workflow-step-card">
+                <div class="step-badge">2</div>
+                <div class="step-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                <h4 class="step-card-title" data-i18n="step_2_title">Analyze Evidence</h4>
+                <p class="step-card-desc" data-i18n="step_2_desc">Extract text, metadata and key entities automatically.</p>
+            </div>
+
+            <div class="workflow-step-card">
+                <div class="step-badge">3</div>
+                <div class="step-icon"><i class="fa-solid fa-network-wired"></i></div>
+                <h4 class="step-card-title" data-i18n="step_3_title">View Insights</h4>
+                <p class="step-card-desc" data-i18n="step_3_desc">Review timelines, graphs and consistency checks.</p>
+            </div>
+
+            <div class="workflow-step-card">
+                <div class="step-badge">4</div>
+                <div class="step-icon"><i class="fa-solid fa-file-arrow-down"></i></div>
+                <h4 class="step-card-title" data-i18n="step_4_title">Generate Report</h4>
+                <p class="step-card-desc" data-i18n="step_4_desc">Download a structured investigation summary.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Built for Clarity Banner -->
+    <section class="section-container">
+        <div class="clarity-banner-card">
+            <div class="clarity-text-side">
+                <span class="clarity-eyebrow" data-i18n="clarity_tag">BUILT FOR CLARITY</span>
+                <h2 class="clarity-title">
+                    <span data-i18n="clarity_head_1">Evidence organized.</span><br>
+                    <span data-i18n="clarity_head_2">Investigations supported.</span>
+                </h2>
+                <p class="clarity-desc" data-i18n="clarity_desc">
+                    CyberShield brings complaint details and digital evidence into one structured workflow. Automated results assist human review; they do not replace professional judgment.
+                </p>
+                <a href="/pages/dashboard.html" class="btn btn-primary" data-i18n="clarity_btn">
+                    Explore the workflow <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="clarity-graphic-side">
+                <div class="clarity-shield-badge">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom Call-To-Action Banner -->
+    <section class="section-container">
+        <div class="bottom-cta-card">
+            <span class="cta-eyebrow" data-i18n="cta_tag">GET STARTED</span>
+            <h2 class="cta-title" data-i18n="cta_head">Make digital evidence easier to review.</h2>
+            <p class="cta-subtext" data-i18n="cta_desc">Explore the prototype workflow and see how the platform organizes case information.</p>
+            <div class="cta-actions">
+                <a href="/pages/report-incident.html" class="btn btn-primary btn-large" data-i18n="cta_btn">
+                    Report an Incident <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="/pages/login.html" class="btn btn-outline btn-large" data-i18n="nav_login">
+                    Access Workbench
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="brand-wrap">
+                        <div class="brand-shield">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="brand-meta">
+                            <span class="brand-name">CyberShield</span>
+                            <span class="brand-tagline">Digital Evidence Platform</span>
+                        </div>
+                    </div>
+                    <p class="footer-disclaimer" data-i18n="footer_notice">
+                        CyberShield is a prototype investigation-support platform, not an official government reporting portal.
+                    </p>
+                </div>
+
+                <div class="footer-col">
+                    <div class="footer-col-title">Navigation</div>
+                    <ul class="footer-nav-list">
+                        <li><a href="/" data-i18n="nav_home">Home</a></li>
+                        <li><a href="#features" data-i18n="nav_features">Features</a></li>
+                        <li><a href="#how-it-works" data-i18n="nav_how_it_works">How It Works</a></li>
+                        <li><a href="/track" data-i18n="nav_track">Track Report</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <div class="footer-col-title">Workspace</div>
+                    <ul class="footer-nav-list">
+                        <li><a href="/pages/dashboard.html" data-i18n="nav_dashboard">Dashboard</a></li>
+                        <li><a href="/pages/cases.html" data-i18n="nav_cases">Case Directory</a></li>
+                        <li><a href="/pages/evidence-vault.html" data-i18n="nav_evidence">Evidence Vault</a></li>
+                        <li><a href="/pages/login.html" data-i18n="nav_login">Officer Login</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <div class="footer-col-title">Security & Integrity</div>
+                    <div class="footer-integrity-pill">
+                        <i class="fa-solid fa-lock text-green"></i> SHA-256 Verified
+                    </div>
+                    <div class="footer-integrity-pill" style="margin-top: 8px;">
+                        <i class="fa-solid fa-database text-blue"></i> Immutable Records
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div>© 2026 CyberShield AI. All rights reserved.</div>
+                <div class="footer-meta-links">
+                    <span>Manrope / DM Sans / JetBrains Mono</span>
+                    <span>•</span>
+                    <span>Light / Dark Ready</span>
+                    <span>•</span>
+                    <span>Bilingual (EN / HI)</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core Scripts -->
+    <script src="/js/main.js"></script>
+    <script src="/js/navigation.js"></script>
+</body>
+</html>
